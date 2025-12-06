@@ -20,5 +20,5 @@ body {
   /* --color-secondary: oklch(70% 0.; */
   /* --color-secondary-content: oklch(98% 0.01 200); */
   --color-accent: #0f172a;
-  /* --color-accent-content: oklch(98% 0.01 160); */
+  --color-accent-content: #d1d5db;
 }
