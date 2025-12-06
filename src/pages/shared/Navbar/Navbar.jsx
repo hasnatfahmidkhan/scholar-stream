@@ -73,7 +73,9 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="hidden lg:flex gap-4">
-            <button className="btn">Login</button>
+            <Link to={"/signUp"} className="btn">
+              Sign Up
+            </Link>
           </div>
         </div>
       </Container>
