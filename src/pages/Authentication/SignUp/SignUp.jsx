@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import SocialBtn from "../../../components/SocialBtn";
 import Lottie from "lottie-react";
 import signupAnimation from "../../../assets/animations/Login.json";
+import { uploadImage } from "../../../utils";
 
 const SignUp = () => {
   const {
@@ -12,8 +13,12 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const { image, ...formData } = data;
+    const imgFile = image[0];
+    const res = await uploadImage(imgFile);
+    console.log(res);
+    formData.role = "student";
   };
 
   return (
@@ -36,9 +41,12 @@ const SignUp = () => {
             {/* Form Section */}
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <h3 className="text-center text-2xl font-semibold mb-3">
-                  Sign Up
+                <h3 className="text-center text-2xl font-semibold mb-2">
+                  Welcome!
                 </h3>
+                <p className="text-center text-gray-500 mb-4">
+                  Create your account to continue
+                </p>
 
                 {/* Mobile Lottie - Shows only on small screens */}
                 <div className="lg:hidden flex justify-center mb-4">
@@ -101,11 +109,11 @@ const SignUp = () => {
                             !files[0] ||
                             [
                               "image/jpeg",
+                              "image/jpg",
                               "image/png",
-                              "image/gif",
                               "image/webp",
                             ].includes(files[0].type) ||
-                            "Only JPEG, PNG, GIF, and WebP images are allowed",
+                            "Only JPG, JPEG, PNG, and WebP images are allowed",
                         },
                       })}
                     />
@@ -184,18 +192,24 @@ const SignUp = () => {
                 </fieldset>
               </form>
 
-              <div className="mt-4">
-                <p className="mb-4 text-center">
-                  Already have an account?{" "}
-                  <Link
-                    to={"/signIn"}
-                    className="hover:underline text-primary font-medium"
-                  >
-                    Sign In
-                  </Link>
-                </p>
-                <SocialBtn onClick={() => "lkj"} />
+              {/* Divider */}
+              <div className="divider my-4">OR</div>
+
+              {/* Social Login */}
+              <div className="space-y-3">
+                <SocialBtn>Sign up with Google</SocialBtn>
               </div>
+
+              {/* Sign Up Link */}
+              <p className="text-center mt-4">
+                Don't have an account?{" "}
+                <Link
+                  to="/signIn"
+                  className="text-primary font-medium hover:underline"
+                >
+                  Sign In
+                </Link>
+              </p>
             </div>
           </div>
         </div>

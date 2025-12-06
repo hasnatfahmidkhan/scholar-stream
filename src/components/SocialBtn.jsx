@@ -1,4 +1,4 @@
-const SocialBtn = ({ onClick }) => {
+const SocialBtn = ({ onClick, children }) => {
   return (
     <button
       role="button"
@@ -32,7 +32,7 @@ const SocialBtn = ({ onClick }) => {
           ></path>
         </g>
       </svg>
-      Login with Google
+      {children}
     </button>
   );
 };
