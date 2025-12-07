@@ -1,5 +1,8 @@
 import { Link, NavLink } from "react-router";
 import Container from "../../../components/Container/Container";
+import useAuth from "../../../hooks/useAuth";
+import { LayoutDashboard, LogOut, UserCog } from "lucide";
+import ProfileNav from "../../../components/ProfileNav/ProfileNav";
 
 const publicLinks = [
   {
@@ -13,10 +16,42 @@ const publicLinks = [
 ];
 
 const Navbar = () => {
+  const { user, signOutFunc, authLoading } = useAuth();
+
+  const userLinks = (
+    <>
+      <li>
+        <Link className={"mb-2.5 bg-base-100 text-[#000000]"} to={"/profile"}>
+          {/* <UserCog /> */}
+          Profile
+        </Link>
+      </li>
+      <li>
+        <Link className={"mb-2.5 bg-base-100 text-[#000000]"} to={"/dashboard"}>
+          {/* <LayoutDashboard /> */}
+          Dashboard
+        </Link>
+      </li>
+      <li>
+        <button className="text-red-500 flex items-center gap-1 mb-2.5 bg-base-100">
+          {/* <LogOut /> */}
+          Log out
+        </button>
+      </li>
+    </>
+  );
   return (
     <nav className="bg-base-100 shadow-sm py-1 sticky top-0">
       <Container className="navbar">
         <div className="navbar-start gap-2">
+          <div className="block lg:hidden">
+            <ProfileNav
+              user={user}
+              userLinks={userLinks}
+              className={"dropdown-start mr-2"}
+              iconPosition={"right-0"}
+            />
+          </div>
           <Link
             to={"/"}
             className="text-xl font-extrabold text-blue-500 uppercase"
@@ -73,9 +108,19 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="hidden lg:flex gap-4">
-            <Link to={"/signUp"} className="btn">
-              Sign Up
-            </Link>
+            {authLoading ? (
+              ""
+            ) : user ? (
+              <ProfileNav
+                className={"dropdown-end"}
+                user={user}
+                userLinks={userLinks}
+              />
+            ) : (
+              <Link to={"/signUp"} className="btn">
+                Sign Up
+              </Link>
+            )}
           </div>
         </div>
       </Container>
