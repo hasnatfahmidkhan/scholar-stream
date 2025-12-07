@@ -7,8 +7,12 @@ import signupAnimation from "../../../assets/animations/Login.json";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxios from "../../../hooks/useAxios";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const axiosInstance = useAxios();
   const {
     signUpWithEmailPassFunc,
@@ -182,34 +186,47 @@ const SignUp = () => {
                   {/* Password Field */}
                   <div>
                     <label className="custom-label">Password</label>
-                    <input
-                      type="password"
-                      className={`input focus:border-primary focus:outline-none w-full ${
-                        errors.password ? "input-error" : ""
-                      }`}
-                      placeholder="Password"
-                      {...register("password", {
-                        required: "Password is required",
-                        minLength: {
-                          value: 6,
-                          message: "Password must be at least 8 characters",
-                        },
-                        validate: {
-                          hasUppercase: (value) =>
-                            /[A-Z]/.test(value) ||
-                            "Password must contain at least one uppercase letter",
-                          hasLowercase: (value) =>
-                            /[a-z]/.test(value) ||
-                            "Password must contain at least one lowercase letter",
-                          hasNumber: (value) =>
-                            /\d/.test(value) ||
-                            "Password must contain at least one number",
-                          hasSpecialChar: (value) =>
-                            /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
-                            "Password must contain at least one special character",
-                        },
-                      })}
-                    />
+                    <div className="relative flex items-center">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className={`input focus:border-primary focus:outline-none w-full ${
+                          errors.password ? "input-error" : ""
+                        }`}
+                        placeholder="Password"
+                        {...register("password", {
+                          required: "Password is required",
+                          minLength: {
+                            value: 6,
+                            message: "Password must be at least 8 characters",
+                          },
+                          validate: {
+                            hasUppercase: (value) =>
+                              /[A-Z]/.test(value) ||
+                              "Password must contain at least one uppercase letter",
+                            hasLowercase: (value) =>
+                              /[a-z]/.test(value) ||
+                              "Password must contain at least one lowercase letter",
+                            hasNumber: (value) =>
+                              /\d/.test(value) ||
+                              "Password must contain at least one number",
+                            hasSpecialChar: (value) =>
+                              /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                              "Password must contain at least one special character",
+                          },
+                        })}
+                      />
+                      <button
+                        type="button"
+                        className="z-10 absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <FaEyeSlash size={20} />
+                        ) : (
+                          <FaEye size={20} />
+                        )}
+                      </button>
+                    </div>
                     {errors.password && (
                       <span className="text-error text-sm">
                         {errors.password.message}
