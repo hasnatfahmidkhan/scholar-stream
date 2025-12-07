@@ -15,6 +15,7 @@ const SignUp = () => {
     setAuthLoading,
     setUser,
     updateProfileFunc,
+    googleSignInFunc,
   } = useAuth();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -34,6 +35,19 @@ const SignUp = () => {
       const { user } = await signUpWithEmailPassFunc(email, password);
       setUser(user);
       await updateProfileFunc(name, photoURL);
+      navigate(state || "/");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setAuthLoading(true);
+    try {
+      const { user } = await googleSignInFunc();
+      setUser(user);
       navigate(state || "/");
     } catch (error) {
       toast.error(error.message);
@@ -255,7 +269,9 @@ const SignUp = () => {
 
               {/* Social Login */}
               <div className="space-y-3">
-                <SocialBtn>Sign up with Google</SocialBtn>
+                <SocialBtn onClick={handleGoogleSignIn}>
+                  Sign up with Google
+                </SocialBtn>
               </div>
 
               {/* Sign Up Link */}

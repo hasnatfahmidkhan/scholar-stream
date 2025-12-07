@@ -1,4 +1,3 @@
-// src/pages/Auth/SignIn/SignIn.jsx
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Container from "../../../components/Container/Container";
@@ -12,8 +11,13 @@ import toast from "react-hot-toast";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { setAuthLoading, authLoading, signInWithEmailPassFunc, setUser } =
-    useAuth();
+  const {
+    setAuthLoading,
+    authLoading,
+    signInWithEmailPassFunc,
+    setUser,
+    googleSignInFunc,
+  } = useAuth();
   const navigate = useNavigate();
   const { state } = useLocation();
   const {
@@ -31,6 +35,19 @@ const SignIn = () => {
       setUser(user);
       navigate(state || "/");
       reset();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setAuthLoading(true);
+    try {
+      const { user } = await googleSignInFunc();
+      setUser(user);
+      navigate(state || "/");
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -180,7 +197,9 @@ const SignIn = () => {
 
               {/* Social Login */}
               <div className="space-y-3">
-                <SocialBtn>Sign in with Google</SocialBtn>
+                <SocialBtn onClick={handleGoogleSignIn}>
+                  Sign in with Google
+                </SocialBtn>
               </div>
 
               {/* Sign Up Link */}
