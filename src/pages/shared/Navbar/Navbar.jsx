@@ -3,6 +3,8 @@ import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
 import { LayoutDashboard, LogOut, UserCog } from "lucide";
 import ProfileNav from "../../../components/ProfileNav/ProfileNav";
+import MyLink from "../../../components/MyLink/MyLink";
+import toast from "react-hot-toast";
 
 const publicLinks = [
   {
@@ -16,7 +18,12 @@ const publicLinks = [
 ];
 
 const Navbar = () => {
-  const { user, signOutFunc, authLoading } = useAuth();
+  const { user, singOutFunc, authLoading } = useAuth();
+
+  const handleSign = async () => {
+    await singOutFunc();
+    toast.success("Sign out Successfully!");
+  };
 
   const userLinks = (
     <>
@@ -33,7 +40,10 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <button className="text-red-500 flex items-center gap-1 mb-2.5 bg-base-100">
+        <button
+          onClick={handleSign}
+          className="text-red-500 flex items-center gap-1 mb-2.5 bg-base-100"
+        >
           {/* <LogOut /> */}
           Log out
         </button>
@@ -61,18 +71,9 @@ const Navbar = () => {
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="flex items-center gap-5 text-accent text-base font-semibold tracking-wide">
-            {publicLinks.map((l) => (
-              <li key={l.label}>
-                <NavLink
-                  to={l.link}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "btn btn-primary border-none"
-                      : "btn btn-ghost border-none hover:btn-primary"
-                  }
-                >
-                  {l.label}
-                </NavLink>
+            {publicLinks.map((link) => (
+              <li key={link.label}>
+                <MyLink link={link} />
               </li>
             ))}
           </ul>
@@ -100,9 +101,9 @@ const Navbar = () => {
               tabIndex="-1"
               className="menu menu-lg dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 font-medium tracking-wide p-2 shadow divide-y divide-gray-400 divide-dashed space-y-2 border border-gray-200"
             >
-              {publicLinks.map((l) => (
-                <li key={l.label}>
-                  <NavLink to={l.link}>{l.label}</NavLink>
+              {publicLinks.map((link) => (
+                <li key={link.label}>
+                  <MyLink link={link} />
                 </li>
               ))}
             </ul>
