@@ -14,7 +14,9 @@ const useAxios = () => {
         config.headers.Authorization = `Bearer ${user.accessToken}`;
         return config;
       },
-      (err) => {}
+      (err) => {
+        console.log(err);
+      }
     );
 
     return () => {

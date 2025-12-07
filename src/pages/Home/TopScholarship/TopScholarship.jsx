@@ -1,0 +1,43 @@
+import { useQuery } from "@tanstack/react-query";
+import Container from "../../../components/Container/Container";
+import useAxios from "../../../hooks/useAxios";
+import { Link } from "react-router";
+import ScholarshipCard from "../../shared/ScholarshipCard/ScholarshipCard ";
+const TopScholarship = () => {
+  const axiosInstance = useAxios();
+  const { data: scholarships = [] } = useQuery({
+    queryKey: [],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/scholarships");
+      return data;
+    },
+  });
+
+  console.log(scholarships);
+
+  return (
+    <Container className={"py-20"}>
+      {/* Section Header */}
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          Top <span className="text-primary">Scholarships</span>
+        </h2>
+        <p className="text-gray-500 max-w-2xl mx-auto">
+          Discover the best scholarship opportunities from top universities
+          around the world. Start your journey to academic excellence today.
+        </p>
+      </div>
+
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {scholarships?.map((scholarship) => {
+          return (
+            <ScholarshipCard key={scholarship._id} scholarship={scholarship} />
+          );
+        })}
+      </div>
+    </Container>
+  );
+};
+
+export default TopScholarship;

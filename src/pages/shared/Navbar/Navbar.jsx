@@ -51,7 +51,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <nav className="bg-base-100 shadow-sm py-1 sticky top-0">
+    <nav className="bg-base-100 shadow-sm py-1 sticky top-0 z-20">
       <Container className="navbar">
         <div className="navbar-start gap-2">
           <div className="block lg:hidden">
