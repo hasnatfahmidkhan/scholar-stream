@@ -1,19 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import Container from "../../../components/Container/Container";
 import useAxios from "../../../hooks/useAxios";
-import { Link } from "react-router";
 import ScholarshipCard from "../../shared/ScholarshipCard/ScholarshipCard ";
 const TopScholarship = () => {
   const axiosInstance = useAxios();
   const { data: scholarships = [] } = useQuery({
-    queryKey: [],
+    queryKey: ["scholarships"],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/scholarships");
       return data;
     },
   });
-
-  console.log(scholarships);
 
   return (
     <Container className={"py-20"}>

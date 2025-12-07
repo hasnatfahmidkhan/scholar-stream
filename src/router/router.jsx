@@ -5,6 +5,8 @@ import AllScholarships from "../pages/AllScholarships/AllScholarships";
 import SignUp from "../pages/Authentication/SignUp/SignUp";
 import SignIn from "../pages/Authentication/SignIn/SignIn";
 import ForgotPassword from "../pages/Authentication/ForgotPassword/ForgotPassowrd";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import ScholarshipDetails from "../pages/ScholarshipDetails/ScholarshipDetails";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "/forgot-password",
         Component: ForgotPassword,
+      },
+      {
+        path: "/scholarship/:id",
+        element: (
+          <PrivateRoute>
+            <ScholarshipDetails />
+          </PrivateRoute>
+        ),
       },
     ],
   },

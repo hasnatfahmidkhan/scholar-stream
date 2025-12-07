@@ -112,12 +112,12 @@ const ScholarshipCard = ({ scholarship }) => {
             {/* {applicants?.toLocaleString() || 0} */}
             <span></span>
           </div>
-          {1 && (
+          {
             <div className="flex items-center gap-1">
               <FaStar className="text-warning" />
               <span>{0}</span>
             </div>
-          )}
+          }
         </div>
 
         {/* Action Button */}
