@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import AllScholarships from "../pages/AllScholarships/AllScholarships";
 import SignUp from "../pages/Authentication/SignUp/SignUp";
 import SignIn from "../pages/Authentication/SignIn/SignIn";
+import ForgotPassword from "../pages/Authentication/ForgotPassword/ForgotPassowrd";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/signIn",
         Component: SignIn,
+      },
+      {
+        path: "/forgot-password",
+        Component: ForgotPassword,
       },
     ],
   },
