@@ -186,6 +186,36 @@ const SignUp = () => {
                     )}
                   </div>
 
+                  {/* Terms & Conditions */}
+                  <div>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className={`checkbox checkbox-primary checkbox-sm mt-1 ${
+                          errors.terms ? "checkbox-error" : ""
+                        }`}
+                        {...register("terms", {
+                          required: "You must accept the terms and conditions",
+                        })}
+                      />
+                      <span className="text-sm">
+                        I agree to the{" "}
+                        <Link to="#" className="text-primary hover:underline">
+                          Terms of Service
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="#" className="text-primary hover:underline">
+                          Privacy Policy
+                        </Link>
+                      </span>
+                    </label>
+                    {errors.terms && (
+                      <span className="text-error text-sm mt-1 block">
+                        {errors.terms.message}
+                      </span>
+                    )}
+                  </div>
+
                   <button type="submit" className="btn btn-primary mt-2 w-full">
                     Sign Up
                   </button>

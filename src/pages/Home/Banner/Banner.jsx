@@ -12,7 +12,7 @@ const Banner = () => {
       <div className="hero-overlay rounded-xl"></div>
       <div className="hero-content text-neutral-content text-center">
         <div className="max-w-3xl">
-          <h1 className="mb-5 text-5xl font-bold">
+          <h1 className="mb-5 text-5xl font-bold leading-14">
             Find the Right Scholarship. <br /> Apply with Confidence.
           </h1>
           <p className="mb-5 text-lg text-accent-content">
