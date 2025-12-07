@@ -4,11 +4,12 @@ import { Link, useLocation, useNavigate } from "react-router";
 import SocialBtn from "../../../components/SocialBtn";
 import Lottie from "lottie-react";
 import signupAnimation from "../../../assets/animations/Login.json";
-import { uploadImage } from "../../../utils";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxios from "../../../hooks/useAxios";
 
 const SignUp = () => {
+  const axiosInstance = useAxios();
   const {
     signUpWithEmailPassFunc,
     authLoading,
@@ -28,14 +29,16 @@ const SignUp = () => {
   const onSubmit = async (data) => {
     setAuthLoading(true);
     const { image, email, password, name } = data;
-    const imgFile = image[0];
-    const photoURL = await uploadImage(imgFile);
 
     try {
       const { user } = await signUpWithEmailPassFunc(email, password);
       setUser(user);
-      await updateProfileFunc(name, photoURL);
-      navigate(state || "/");
+      await updateProfileFunc(name, image);
+      const userInfo = { email, photoURL: image, displayName: name };
+      const { data } = await axiosInstance.post("/users", userInfo);
+      if (data.insertedId) {
+        navigate(state || "/");
+      }
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -122,41 +125,34 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  {/* Image Field */}
+                  {/* Image URL Field */}
                   <div>
-                    <label className="custom-label">Image</label>
+                    <label className="custom-label">
+                      Image URL <span className="text-error">*</span>
+                    </label>
                     <input
-                      type="file"
-                      className={`file-input focus:border-primary focus:outline-none w-full ${
-                        errors.image ? "file-input-error" : ""
+                      type="url"
+                      className={`input focus:border-primary focus:outline-none w-full ${
+                        errors.image ? "input-error" : ""
                       }`}
-                      accept="image/*"
+                      placeholder="https://example.com/your-image.jpg"
                       {...register("image", {
-                        required: "Profile image is required",
-                        validate: {
-                          fileSelected: (files) =>
-                            files?.length > 0 || "Please select an image",
-                          fileSize: (files) =>
-                            !files[0] ||
-                            files[0].size <= 2 * 1024 * 1024 ||
-                            "Image size must be less than 2MB",
-                          fileType: (files) =>
-                            !files[0] ||
-                            [
-                              "image/jpeg",
-                              "image/jpg",
-                              "image/png",
-                              "image/webp",
-                            ].includes(files[0].type) ||
-                            "Only JPG, JPEG, PNG, and WebP images are allowed",
+                        pattern: {
+                          value:
+                            /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i,
+                          message:
+                            "Please enter a valid image URL (jpg, jpeg, png, gif, webp, svg)",
                         },
                       })}
                     />
                     {errors.image && (
-                      <span className="text-error text-sm">
+                      <span className="text-error text-sm mt-1 block">
                         {errors.image.message}
                       </span>
                     )}
+                    <p className="text-xs text-gray-400 mt-1">
+                      Enter a direct link to your profile image
+                    </p>
                   </div>
 
                   {/* Email Field */}

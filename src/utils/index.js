@@ -8,9 +8,10 @@ export const uploadImage = async (imgFile) => {
     formData.append("image", imgFile);
     // host the image
     const { data } = await axios.post(
-      import.meta.env.VITE_HOSTING_URL,
+      "https://api.imgbb.com/1/upload?key=cc51b77e58af1426c3492c9240b3764b",
       formData
     );
+    console.log(data);
     return data?.data?.url;
   } catch (error) {
     console.error(error);

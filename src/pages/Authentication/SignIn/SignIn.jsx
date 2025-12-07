@@ -29,7 +29,7 @@ const SignIn = () => {
 
   const onSubmit = async (data) => {
     setAuthLoading(true);
-    const { email, password, rememberMe } = data;
+    const { email, password } = data;
     try {
       const { user } = await signInWithEmailPassFunc(email, password);
       setUser(user);
