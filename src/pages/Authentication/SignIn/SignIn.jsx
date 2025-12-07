@@ -8,8 +8,10 @@ import signinAnimation from "../../../assets/animations/Login.json";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxios from "../../../hooks/useAxios";
 
 const SignIn = () => {
+  const axiosInstance = useAxios();
   const [showPassword, setShowPassword] = useState(false);
   const {
     setAuthLoading,
@@ -47,7 +49,16 @@ const SignIn = () => {
     try {
       const { user } = await googleSignInFunc();
       setUser(user);
-      navigate(state || "/");
+      const userInfo = {
+        email: user.email,
+        photoURL: user.photoURL,
+        displayName: user.displayName,
+      };
+      const { data } = await axiosInstance.post("/users", userInfo);
+
+      if (data.insertedId || data.message === "user already exits") {
+        navigate(state || "/");
+      }
     } catch (error) {
       toast.error(error.message);
     } finally {

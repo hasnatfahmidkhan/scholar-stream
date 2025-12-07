@@ -55,7 +55,16 @@ const SignUp = () => {
     try {
       const { user } = await googleSignInFunc();
       setUser(user);
-      navigate(state || "/");
+      const userInfo = {
+        email: user.email,
+        photoURL: user.photoURL,
+        displayName: user.displayName,
+      };
+      const { data } = await axiosInstance.post("/users", userInfo);
+
+      if (data.insertedId || data.message === "user already exits") {
+        navigate(state || "/");
+      }
     } catch (error) {
       toast.error(error.message);
     } finally {
