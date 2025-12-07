@@ -1,12 +1,18 @@
 import { useForm } from "react-hook-form";
 import Container from "../../../components/Container/Container";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialBtn from "../../../components/SocialBtn";
 import Lottie from "lottie-react";
 import signupAnimation from "../../../assets/animations/Login.json";
 import { uploadImage } from "../../../utils";
+import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
+  const { signUpWithEmailPassFunc, authLoading, setAuthLoading, setUser } =
+    useAuth();
+  const navigate = useNavigate();
+  const { state } = useLocation();
   const {
     handleSubmit,
     register,
@@ -14,11 +20,20 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { image, ...formData } = data;
+    setAuthLoading(true);
+    const { image, email, password, ...formData } = data;
     const imgFile = image[0];
-    const res = await uploadImage(imgFile);
-    console.log(res);
+    const photoURL = await uploadImage(imgFile);
     formData.role = "student";
+    try {
+      const { user } = await signUpWithEmailPassFunc(email, password);
+      setUser(user);
+      navigate(state || "/");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   return (
@@ -217,7 +232,14 @@ const SignUp = () => {
                   </div>
 
                   <button type="submit" className="btn btn-primary mt-2 w-full">
-                    Sign Up
+                    {authLoading ? (
+                      <>
+                        <span className="loading loading-spinner loading-sm"></span>
+                        Signing Up...
+                      </>
+                    ) : (
+                      "Sign Up"
+                    )}
                   </button>
                 </fieldset>
               </form>
