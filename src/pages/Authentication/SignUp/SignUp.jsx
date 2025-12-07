@@ -9,8 +9,13 @@ import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const SignUp = () => {
-  const { signUpWithEmailPassFunc, authLoading, setAuthLoading, setUser } =
-    useAuth();
+  const {
+    signUpWithEmailPassFunc,
+    authLoading,
+    setAuthLoading,
+    setUser,
+    updateProfileFunc,
+  } = useAuth();
   const navigate = useNavigate();
   const { state } = useLocation();
   const {
@@ -21,13 +26,14 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     setAuthLoading(true);
-    const { image, email, password, ...formData } = data;
+    const { image, email, password, name } = data;
     const imgFile = image[0];
     const photoURL = await uploadImage(imgFile);
-    formData.role = "student";
+
     try {
       const { user } = await signUpWithEmailPassFunc(email, password);
       setUser(user);
+      await updateProfileFunc(name, photoURL);
       navigate(state || "/");
     } catch (error) {
       toast.error(error.message);
