@@ -3,6 +3,7 @@ import { AuthContext } from "../Context/AuthContext";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -15,6 +16,12 @@ const AuthProvider = ({ children }) => {
   const signUpWithEmailPassFunc = (email, password) => {
     setAuthLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  // func for sign in email & pass
+  const signInWithEmailPassFunc = (email, password) => {
+    setAuthLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   // func for update profile
@@ -45,6 +52,7 @@ const AuthProvider = ({ children }) => {
     signUpWithEmailPassFunc,
     singOutFunc,
     updateProfileFunc,
+    signInWithEmailPassFunc,
   };
 
   return (

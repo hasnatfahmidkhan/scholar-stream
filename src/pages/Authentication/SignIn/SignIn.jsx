@@ -2,15 +2,20 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Container from "../../../components/Container/Container";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialBtn from "../../../components/SocialBtn";
 import Lottie from "lottie-react";
 import signinAnimation from "../../../assets/animations/Login.json";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const { setAuthLoading, authLoading, signInWithEmailPassFunc, setUser } =
+    useAuth();
+  const navigate = useNavigate();
+  const { state } = useLocation();
   const {
     handleSubmit,
     register,
@@ -19,7 +24,18 @@ const SignIn = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    setAuthLoading(true);
+    const { email, password, rememberMe } = data;
+    try {
+      const { user } = await signInWithEmailPassFunc(email, password);
+      setUser(user);
+      navigate(state || "/");
+      reset();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   return (
@@ -147,7 +163,7 @@ const SignIn = () => {
 
                   {/* Submit Button */}
                   <button type="submit" className="btn btn-primary mt-2 w-full">
-                    {false ? (
+                    {authLoading ? (
                       <>
                         <span className="loading loading-spinner loading-sm"></span>
                         Signing In...
