@@ -22,6 +22,15 @@ const AllScholarships = () => {
     },
   });
 
+  const handleReset = () => {
+    setSearch("");
+    setSchCat("");
+    setSubCat("");
+    setLoc("");
+  };
+
+  const hasActiveFilter = search || schCat || subCat || loc;
+
   return (
     <Container className={"py-20"}>
       <div className="text-center mb-12">
@@ -34,11 +43,23 @@ const AllScholarships = () => {
         </p>
       </div>
 
-      <div className="mb-10 flex justify-between items-center">
+      <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
         {/* search  */}
         <Search setSearch={setSearch} />
         {/* filter  */}
-        <Filters setSchCat={setSchCat} setSubCat={setSubCat} setLoc={setLoc} />
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <Filters
+            setSchCat={setSchCat}
+            setSubCat={setSubCat}
+            setLoc={setLoc}
+          />
+          {/* Reset  */}
+          {hasActiveFilter && (
+            <button onClick={handleReset} className="btn btn-outline btn-error">
+              Reset
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
