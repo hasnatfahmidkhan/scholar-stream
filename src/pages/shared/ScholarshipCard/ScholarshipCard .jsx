@@ -19,6 +19,8 @@ const ScholarshipCard = ({ scholarship }) => {
     degree,
     tuitionFees,
     applicationDeadline,
+    ratings,
+    applicantNumber,
   } = scholarship;
 
   const getDaysRemaining = (deadline) => {
@@ -109,13 +111,13 @@ const ScholarshipCard = ({ scholarship }) => {
           </div>
           <div className="flex items-center gap-1">
             <FaUsers className="text-info" />
-            {/* {applicants?.toLocaleString() || 0} */}
+            {applicantNumber}
             <span></span>
           </div>
           {
             <div className="flex items-center gap-1">
               <FaStar className="text-warning" />
-              <span>{0}</span>
+              <span>{ratings}</span>
             </div>
           }
         </div>
