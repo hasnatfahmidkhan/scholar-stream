@@ -21,7 +21,6 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdFeedback } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 const ScholarshipDetails = () => {

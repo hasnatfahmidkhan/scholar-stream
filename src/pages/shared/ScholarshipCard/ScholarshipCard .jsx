@@ -126,7 +126,7 @@ const ScholarshipCard = ({ scholarship }) => {
         <div className="card-actions mt-4">
           <Link
             to={`/scholarship/${_id}`}
-            className="btn btn-primary btn-block"
+            className="btn btn-primary btn-block rounded-xl"
           >
             View Details
             <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
