@@ -8,6 +8,7 @@ import ForgotPassword from "../pages/Authentication/ForgotPassword/ForgotPassowr
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import ScholarshipDetails from "../pages/ScholarshipDetails/ScholarshipDetails";
 import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
+import PaymentFail from "../pages/PaymentFail/PaymentFail";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <PaymentSuccess />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment/fail",
+        element: (
+          <PrivateRoute>
+            <PaymentFail />
           </PrivateRoute>
         ),
       },
