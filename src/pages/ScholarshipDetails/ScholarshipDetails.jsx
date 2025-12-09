@@ -20,8 +20,13 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdFeedback } from "react-icons/md";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const ScholarshipDetails = () => {
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const { user } = useAuth();
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { data: scholarship } = useQuery({
@@ -79,6 +84,45 @@ const ScholarshipDetails = () => {
 
   // Total cost
   const totalCost = tuitionFees + applicationFees + serviceCharge;
+
+  const handleApply = async () => {
+    setPaymentLoading(true);
+    const totalPrice = applicationFees + serviceCharge;
+    const scholarshipInfo = {
+      totalPrice,
+      userName: user?.displayName,
+      userEmail: user?.email,
+      universityName,
+      universityImage,
+      scholarshipId: _id,
+      scholarshipName,
+      scholarshipCategory,
+      degree,
+      applicationFees,
+      serviceCharge,
+    };
+
+    try {
+      const { data } = await axiosSecure.post(
+        "/create-checkout-session",
+        scholarshipInfo
+      );
+
+      if (data?.url) {
+        window.location.href = data?.url;
+      } else if (!data?.insertedId) {
+        Swal.fire({
+          title: "The Application?",
+          text: data?.message,
+          icon: "info",
+        });
+      }
+    } catch (error) {
+      error;
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
 
   return (
     <div className="bg-base-200 min-h-screen pb-16">
@@ -374,8 +418,18 @@ const ScholarshipDetails = () => {
 
                 {/* Action Buttons */}
                 <div className="space-y-3 mt-4">
-                  <button className="btn btn-primary btn-block btn-lg">
-                    Apply Now
+                  <button
+                    onClick={handleApply}
+                    className="btn btn-primary btn-block btn-lg"
+                  >
+                    {paymentLoading ? (
+                      <>
+                        <span className="loading loading-spinner"></span>
+                        <span>Loading...</span>
+                      </>
+                    ) : (
+                      "Apply Now"
+                    )}
                   </button>
 
                   <div className="flex gap-2">
