@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/all-scholarships",
+        path: "/scholarships",
         Component: AllScholarships,
       },
       {

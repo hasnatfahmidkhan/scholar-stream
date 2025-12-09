@@ -13,7 +13,7 @@ const publicLinks = [
   },
   {
     label: "All Scholarships",
-    link: "/all-scholarships",
+    link: "/scholarships",
   },
 ];
 
