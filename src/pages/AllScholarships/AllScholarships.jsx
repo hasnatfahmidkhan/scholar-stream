@@ -11,12 +11,13 @@ const AllScholarships = () => {
   const [subCat, setSubCat] = useState("");
   const [loc, setLoc] = useState("");
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
   const axiosInstance = useAxios();
   const { data: scholarships } = useQuery({
-    queryKey: ["scholarships", schCat, subCat, loc, search],
+    queryKey: ["scholarships", schCat, subCat, loc, search, sort],
     queryFn: async () => {
       const { data } = await axiosInstance.get(
-        `/scholarships?schCat=${schCat}&subCat=${subCat}&loc=${loc}&search=${search}`
+        `/scholarships?schCat=${schCat}&subCat=${subCat}&loc=${loc}&sort=${sort}&search=${search}`
       );
       return data;
     },
@@ -27,9 +28,11 @@ const AllScholarships = () => {
     setSchCat("");
     setSubCat("");
     setLoc("");
+    setSort("");
   };
+  console.log(sort);
 
-  const hasActiveFilter = search || schCat || subCat || loc;
+  const hasActiveFilter = search || schCat || subCat || loc || sort;
 
   return (
     <Container className={"py-20"}>
@@ -52,6 +55,7 @@ const AllScholarships = () => {
             setSchCat={setSchCat}
             setSubCat={setSubCat}
             setLoc={setLoc}
+            setSort={setSort}
           />
           {/* Reset  */}
           {hasActiveFilter && (

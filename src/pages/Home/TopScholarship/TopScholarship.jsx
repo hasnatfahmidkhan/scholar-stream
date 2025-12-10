@@ -7,7 +7,7 @@ const TopScholarship = () => {
   const { data: scholarships = [] } = useQuery({
     queryKey: ["scholarships"],
     queryFn: async () => {
-      const { data } = await axiosInstance.get("/scholarships");
+      const { data } = await axiosInstance.get("/scholarships?limit=6");
       return data;
     },
   });

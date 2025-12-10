@@ -1,6 +1,6 @@
 import React from "react";
 
-const Filters = ({ setLoc, setSubCat, setSchCat }) => {
+const Filters = ({ setLoc, setSubCat, setSchCat, setSort }) => {
   return (
     <div className="flex flex-wrap justify-center gap-4">
       {/* Scholarship Category Filter */}
@@ -65,6 +65,21 @@ const Filters = ({ setLoc, setSubCat, setSchCat }) => {
           <option value="Netherlands">Netherlands</option>
           <option value="Sweden">Sweden</option>
           <option value="Switzerland">Switzerland</option>
+        </select>
+      </div>
+
+      {/* Sort by Application fees  */}
+      <div>
+        <select
+          onChange={(e) => setSort(e.target.value)}
+          defaultValue=""
+          className="select select-bordered focus:outline-none focus:border-primary"
+        >
+          <option value="" disabled>
+            Sort by Fess
+          </option>
+          <option value="asc">Low to High</option>
+          <option value="dsc">High to Low</option>
         </select>
       </div>
     </div>
