@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useEffect } from "react";
 import useAuth from "./useAuth";
+import { useNavigate } from "react-router";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_DOMAIN_URL,
+  withCredentials: true,
 });
 
 const useAxiosSecure = () => {
-  const { user } = useAuth();
+  const { user, signOutFunc } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
-    const requestInterceptor = axios.interceptors.request.use(
+    const requestInterceptor = instance.interceptors.request.use(
       (config) => {
-        config.headers.Authorization = `Bearer ${user.accessToken}`;
         return config;
       },
       (err) => {
@@ -19,10 +21,26 @@ const useAxiosSecure = () => {
       }
     );
 
+    const responseInterceptor = instance.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (err) => {
+        const status = err.status;
+
+        if (status === 401 || status === 403) {
+          signOutFunc().then(() => {
+            navigate("/signIn");
+          });
+        }
+      }
+    );
+
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
     };
-  }, [user]);
+  }, [user, navigate, signOutFunc]);
   return instance;
 };
 

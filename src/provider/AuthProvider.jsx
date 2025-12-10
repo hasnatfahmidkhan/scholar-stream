@@ -11,10 +11,12 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase";
+import useAxios from "../hooks/useAxios";
 
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
+  const axiosInstance = useAxios();
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -47,19 +49,44 @@ const AuthProvider = ({ children }) => {
   };
 
   // sign out func
-  const singOutFunc = () => {
+  const signOutFunc = () => {
     return signOut(auth);
   };
 
   // observer for user login or not
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setAuthLoading(false);
       setUser(currentUser);
+      if (currentUser) {
+        const userInfo = { email: currentUser.email };
+        axiosInstance
+          .post("/getToken", userInfo)
+          .then(() => {
+            console.log("Login Succesfully");
+          })
+          .catch((err) => {
+            console.log("Error to generate token", err);
+          })
+          .finally(() => {
+            setAuthLoading(false);
+          });
+      } else {
+        axiosInstance
+          .post("/logout")
+          .then(() => {
+            console.log("token cleared");
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            setAuthLoading(false);
+          });
+      }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [axiosInstance]);
 
   const authInfo = {
     user,
@@ -67,7 +94,7 @@ const AuthProvider = ({ children }) => {
     authLoading,
     setAuthLoading,
     signUpWithEmailPassFunc,
-    singOutFunc,
+    signOutFunc,
     updateProfileFunc,
     signInWithEmailPassFunc,
     googleSignInFunc,

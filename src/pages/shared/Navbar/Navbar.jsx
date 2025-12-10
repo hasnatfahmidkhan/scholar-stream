@@ -18,10 +18,10 @@ const publicLinks = [
 ];
 
 const Navbar = () => {
-  const { user, singOutFunc, authLoading } = useAuth();
+  const { user, signOutFunc, authLoading } = useAuth();
 
   const handleSign = async () => {
-    await singOutFunc();
+    await signOutFunc();
     toast.success("Sign out Successfully!");
   };
 
@@ -54,14 +54,16 @@ const Navbar = () => {
     <nav className="bg-base-100 shadow-sm py-1 sticky top-0 z-20">
       <Container className="navbar">
         <div className="navbar-start gap-2">
-          <div className="block lg:hidden">
-            <ProfileNav
-              user={user}
-              userLinks={userLinks}
-              className={"dropdown-start mr-2"}
-              iconPosition={"right-0"}
-            />
-          </div>
+          {user && (
+            <div className="block lg:hidden">
+              <ProfileNav
+                user={user}
+                userLinks={userLinks}
+                className={"dropdown-start mr-2"}
+                iconPosition={"right-0"}
+              />
+            </div>
+          )}
           <Link
             to={"/"}
             className="text-xl font-extrabold text-blue-500 uppercase"
@@ -110,7 +112,7 @@ const Navbar = () => {
           </div>
           <div className="hidden lg:flex gap-4">
             {authLoading ? (
-              ""
+              <div>Loading</div>
             ) : user ? (
               <ProfileNav
                 className={"dropdown-end"}
