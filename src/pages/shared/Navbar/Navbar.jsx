@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router";
 import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
-import { LayoutDashboard, LogOut, UserCog } from "lucide";
+import { LayoutDashboard, LogOut, UserCog } from "lucide-react";
 import ProfileNav from "../../../components/ProfileNav/ProfileNav";
 import MyLink from "../../../components/MyLink/MyLink";
 import toast from "react-hot-toast";

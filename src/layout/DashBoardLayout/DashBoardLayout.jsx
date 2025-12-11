@@ -1,0 +1,188 @@
+// src/layouts/DashBoardLayout.jsx
+import { Award, User, Home, LogOut, ChevronRight, Menu } from "lucide-react";
+import { NavLink, Outlet, Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import ProfileIcon from "../../components/ProfileIcon/ProfileIcon";
+import toast from "react-hot-toast";
+
+const DashBoardLayout = () => {
+  const { user, signOutFunc } = useAuth();
+
+  const userMenu = [
+    {
+      path: "/dashboard",
+      label: "Profile",
+      icon: User,
+    },
+    {
+      path: "/dashboard/add-scholarships",
+      label: "Add Scholarships",
+      icon: Award,
+    },
+  ];
+
+  const handleLogout = () => {
+    signOutFunc().then(() => {});
+    toast.success("Sign out successfully.");
+  };
+
+  return (
+    <div className="drawer lg:drawer-open">
+      <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
+
+      {/* Main Content */}
+      <div className="drawer-content flex flex-col bg-base-200 min-h-screen">
+        {/* Navbar */}
+        <nav className="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-3 md:px-6">
+          {/* Mobile Menu Toggle */}
+          <label
+            htmlFor="dashboard-drawer"
+            className="btn btn-ghost btn-circle lg:hidden"
+          >
+            <Menu className="size-5" />
+          </label>
+
+          {/* Logo */}
+          <div className="flex-1">
+            <Link to="/" className="text-xl font-bold text-primary">
+              Scholar Stream
+            </Link>
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-3 ">
+            {/* User Avatar Dropdown - Using ProfileIcon */}
+            <div className="dropdown dropdown-end">
+              <ProfileIcon user={user} iconPosition="right-0" />
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-lg mt-4"
+              >
+                {/* User Info Header */}
+                <li className="px-4 py-2 pointer-events-none">
+                  <div className="flex flex-col items-start">
+                    <span className="font-semibold">
+                      {user?.displayName || "User"}
+                    </span>
+                    <span className="text-xs text-gray-500 truncate w-full">
+                      {user?.email}
+                    </span>
+                  </div>
+                </li>
+                <div className="divider my-0"></div>
+                <li>
+                  <Link to="/dashboard">
+                    <User className="size-4" />
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/">
+                    <Home className="size-4" />
+                    Home
+                  </Link>
+                </li>
+                <div className="divider my-0"></div>
+                <li>
+                  <button onClick={handleLogout} className="text-error">
+                    <LogOut className="size-4" />
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        {/* Page Content */}
+        <main className="flex-1 p-4 md:p-6 lg:p-8">
+          <Outlet />
+        </main>
+      </div>
+
+      {/* Sidebar */}
+      <div className="drawer-side z-40">
+        <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
+
+        <aside className="bg-base-100 min-h-screen w-72 flex flex-col">
+          {/* Sidebar Header */}
+          <div className="p-4 border-b border-base-200">
+            <Link to="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <Award className="text-primary-content size-6" />
+              </div>
+              <div>
+                <h1 className="text-lg font-bold">Scholar Stream</h1>
+                <p className="text-xs text-gray-500">Dashboard</p>
+              </div>
+            </Link>
+          </div>
+
+          {/* User Info */}
+          <div className="p-4 border-b border-base-200">
+            <div className="flex items-center gap-3">
+              {/* User Avatar */}
+              <div className="avatar">
+                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1">
+                  <img
+                    src={user?.photoURL}
+                    alt={user?.displayName || "User"}
+                    onError={(e) => (e.target.src = "profile.png")}
+                  />
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold truncate">
+                  {user?.displayName || "User"}
+                </h3>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Menu */}
+          <nav className="flex-1 p-4">
+            <ul className="space-y-2">
+              {userMenu.map((link) => (
+                <li key={link.path}>
+                  <NavLink
+                    end
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                        isActive
+                          ? "bg-primary text-primary-content shadow-md"
+                          : "hover:bg-base-200"
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <link.icon className="size-5" />
+                        <span className="flex-1">{link.label}</span>
+                        {isActive && <ChevronRight className="size-4" />}
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="p-4 border-t border-base-200">
+            <button
+              onClick={handleLogout}
+              className="btn btn-outline btn-error btn-block gap-2"
+            >
+              <LogOut className="size-4" />
+              Logout
+            </button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+};
+
+export default DashBoardLayout;

@@ -5,7 +5,7 @@ const ProfileIcon = ({ user, iconPosition = "right-0" }) => {
     <div
       tabIndex={0}
       role="button"
-      className="bg-primary p-1 w-14 h-14 rounded-full cursor-pointer relative"
+      className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 cursor-pointer relative"
     >
       <img
         className="w-full h-full object-cover rounded-full"
@@ -13,11 +13,11 @@ const ProfileIcon = ({ user, iconPosition = "right-0" }) => {
         alt={user?.displayName}
         onError={(e) => (e.target.src = "profile.png")}
       />
-      <span
-        className={`absolute bottom-0.5 ${iconPosition} bg-primary rounded-full p-0.5`}
+      {/* <span
+        className={`absolute -bottom-1 ${iconPosition} bg-primary rounded-full p-0.5`}
       >
         <IoMenu color="#ffffff" />
-      </span>
+      </span> */}
     </div>
   );
 };

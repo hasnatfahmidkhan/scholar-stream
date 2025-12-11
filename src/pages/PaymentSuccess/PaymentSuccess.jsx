@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/Container/Container";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -21,7 +20,7 @@ const PaymentSuccess = () => {
       });
     }
   }, [searchParams, axiosSecure]);
-  console.log(applicationData);
+
   return (
     <Container
       className={"h-[calc(100vh-80px)] flex items-center justify-center"}
