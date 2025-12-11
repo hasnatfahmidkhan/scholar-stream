@@ -60,7 +60,6 @@ const Navbar = () => {
                 user={user}
                 userLinks={userLinks}
                 className={"dropdown-start mr-2"}
-                iconPosition={"right-0"}
               />
             </div>
           )}

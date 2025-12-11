@@ -1,5 +1,11 @@
+import Analytics from "../Analytics/Analytics";
+
 const DashBoardHome = () => {
-  return <div>Profile</div>;
+  return (
+    <div>
+      <Analytics />
+    </div>
+  );
 };
 
 export default DashBoardHome;

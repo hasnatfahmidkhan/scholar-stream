@@ -1,5 +1,15 @@
 // src/layouts/DashBoardLayout.jsx
-import { Award, User, Home, LogOut, ChevronRight, Menu } from "lucide-react";
+import {
+  Award,
+  User,
+  Home,
+  LogOut,
+  ChevronRight,
+  Menu,
+  Edit3,
+  Users,
+  BarChart2,
+} from "lucide-react";
 import { NavLink, Outlet, Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import ProfileIcon from "../../components/ProfileIcon/ProfileIcon";
@@ -11,6 +21,11 @@ const DashBoardLayout = () => {
   const userMenu = [
     {
       path: "/dashboard",
+      label: "Analytics",
+      icon: BarChart2,
+    },
+    {
+      path: "/dashboard/me",
       label: "Profile",
       icon: User,
     },
@@ -18,6 +33,16 @@ const DashBoardLayout = () => {
       path: "/dashboard/add-scholarships",
       label: "Add Scholarships",
       icon: Award,
+    },
+    {
+      path: "/dashboard/manage-scholarships",
+      label: "Manage Scholarships",
+      icon: Edit3,
+    },
+    {
+      path: "/dashboard/manage-users",
+      label: "Manage Users",
+      icon: Users,
     },
   ];
 

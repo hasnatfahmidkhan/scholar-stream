@@ -1,6 +1,4 @@
-import { IoMenu } from "react-icons/io5";
-
-const ProfileIcon = ({ user, iconPosition = "right-0" }) => {
+const ProfileIcon = ({ user }) => {
   return (
     <div
       tabIndex={0}
@@ -13,11 +11,6 @@ const ProfileIcon = ({ user, iconPosition = "right-0" }) => {
         alt={user?.displayName}
         onError={(e) => (e.target.src = "profile.png")}
       />
-      {/* <span
-        className={`absolute -bottom-1 ${iconPosition} bg-primary rounded-full p-0.5`}
-      >
-        <IoMenu color="#ffffff" />
-      </span> */}
     </div>
   );
 };

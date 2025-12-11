@@ -12,6 +12,7 @@ import PaymentFail from "../pages/PaymentFail/PaymentFail";
 import DashBoardLayout from "../layout/DashBoardLayout/DashBoardLayout";
 import AddScholarship from "../pages/DashBoard/AddScholarship/AddScholarship";
 import DashBoardHome from "../pages/DashBoard/DashBoardHome/DashBoardHome";
+import UserProfile from "../pages/DashBoard/UserProfile/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,18 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/add-scholarships",
         Component: AddScholarship,
+      },
+      {
+        path: "/dashboard/manage-scholarships",
+        Component: AddScholarship,
+      },
+      {
+        path: "/dashboard/manage-users",
+        Component: AddScholarship,
+      },
+      {
+        path: "/dashboard/me",
+        Component: UserProfile,
       },
     ],
   },
