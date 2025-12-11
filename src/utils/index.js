@@ -11,7 +11,7 @@ export const uploadImage = async (imgFile) => {
       "https://api.imgbb.com/1/upload?key=cc51b77e58af1426c3492c9240b3764b",
       formData
     );
-    console.log(data);
+
     return data?.data?.url;
   } catch (error) {
     console.error(error);

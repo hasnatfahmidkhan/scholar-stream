@@ -50,6 +50,10 @@ const UserProfile = () => {
     toast.success("Logged out successfully!");
   };
 
+  // Handle EditProfile
+  const handleEditProfile = () => {
+    console.log("Edit");
+  };
   // Loading state
   if (authLoading || false) {
     return (
@@ -129,7 +133,10 @@ const UserProfile = () => {
 
                 {/* Actions */}
                 <div className="card-actions mt-6 w-full">
-                  <button className="btn btn-outline btn-primary btn-block gap-2">
+                  <button
+                    onClick={handleEditProfile}
+                    className="btn btn-outline btn-primary btn-block gap-2"
+                  >
                     <Edit className="size-4" />
                     Edit Profile
                   </button>

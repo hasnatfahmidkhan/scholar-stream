@@ -1,6 +1,7 @@
+import Lottie from "lottie-react";
 import useAuth from "../../hooks/useAuth";
 import { Navigate, useLocation } from "react-router";
-
+import Loading from "../../assets/animations/Loading.json";
 const PrivateRoute = ({ children }) => {
   const { user, authLoading } = useAuth();
   const location = useLocation();
@@ -8,7 +9,7 @@ const PrivateRoute = ({ children }) => {
   if (authLoading) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-        <span className="loading loading-spinner loading-xl"></span>
+        <Lottie animationData={Loading} loop />
       </div>
     );
   }

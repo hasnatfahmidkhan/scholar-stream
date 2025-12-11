@@ -65,6 +65,11 @@ const Filters = ({ setLoc, setSubCat, setSchCat, setSort }) => {
           <option value="Netherlands">Netherlands</option>
           <option value="Sweden">Sweden</option>
           <option value="Switzerland">Switzerland</option>
+          <option value="China">China</option>
+          <option value="Singapore">Singapore</option>
+          <option value="New Zealand">New Zealand</option>
+          <option value="South Korea">South Korea</option>
+          <option value="Italy">Italy</option>
         </select>
       </div>
 
