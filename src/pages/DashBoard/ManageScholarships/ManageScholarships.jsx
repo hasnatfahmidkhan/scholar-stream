@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
+import useAuth from "../../../hooks/useAuth";
 
 const ManageScholarships = () => {
   const [schCat, setSchCat] = useState("");
@@ -27,7 +28,7 @@ const ManageScholarships = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const [deleteId, setDeleteId] = useState(null);
-
+  const { user } = useAuth();
   const deleteModalRef = useRef(null);
   const axiosSecure = useAxiosSecure();
 
@@ -98,7 +99,9 @@ const ManageScholarships = () => {
 
   const confirmDelete = async () => {
     try {
-      const { data } = await axiosSecure.delete(`/scholarship/${deleteId}`);
+      const { data } = await axiosSecure.delete(
+        `/scholarship/${deleteId}?adminEmail=${user?.email}`
+      );
       if (data.deletedCount) {
         toast.success("Scholarship deleted successfully!");
         refetch();
