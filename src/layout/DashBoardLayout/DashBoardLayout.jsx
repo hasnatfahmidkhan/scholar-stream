@@ -21,17 +21,17 @@ import useRole from "../../hooks/useRole";
 const DashBoardLayout = () => {
   const { user, signOutFunc } = useAuth();
   const [imageError, setImageError] = useState(false);
-  const role = useRole();
+  const { role } = useRole();
 
   const userMenu = [
     {
-      path: "/dashboard/analytics",
+      path: "/dashboard",
       label: "Analytics",
       icon: BarChart2,
       role: ["admin"],
     },
     {
-      path: "/dashboard",
+      path: "/dashboard/me",
       label: "Profile",
       icon: User,
       role: ["student", "moderator", "admin"],

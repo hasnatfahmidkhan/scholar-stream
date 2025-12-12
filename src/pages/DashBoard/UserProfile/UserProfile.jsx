@@ -15,11 +15,12 @@ import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import Container from "../../../components/Container/Container";
 import Lottie from "lottie-react";
+import useRole from "../../../hooks/useRole";
 
 const UserProfile = () => {
   const { user, signOutFunc, authLoading } = useAuth();
   const [imageError, setImageError] = useState(false);
-  const role = "admin";
+  const { role, roleLoading } = useRole();
   // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -55,7 +56,7 @@ const UserProfile = () => {
     console.log("Edit");
   };
   // Loading state
-  if (authLoading || false) {
+  if (authLoading || roleLoading) {
     return (
       <Container className="min-h-[calc(100vh-128px)] flex items-center justify-center">
         <Lottie animationData={Loading} loop />

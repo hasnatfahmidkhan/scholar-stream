@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import Spinner from "../components/Spinner/Spinner";
 import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const useRole = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [role, setRole] = useState("student");
-  useEffect(() => {
-    axiosSecure
-      .get(`/users/${user?.email}/role`)
-      .then(({ data }) => setRole(data?.role));
-  }, [axiosSecure, user]);
-  return role;
+  const { data: role, isLoading: roleLoading } = useQuery({
+    queryKey: ["role", user],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/users/${user?.email}/role`);
+      return data?.role;
+    },
+  });
+
+  return { role, roleLoading };
 };
 
 export default useRole;
