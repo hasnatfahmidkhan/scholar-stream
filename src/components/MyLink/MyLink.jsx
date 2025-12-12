@@ -10,6 +10,7 @@ const MyLink = ({ link }) => {
           : "btn btn-ghost border-none hover:btn-primary"
       }
     >
+      <link.icon size={18} />
       {link.label}
     </NavLink>
   );

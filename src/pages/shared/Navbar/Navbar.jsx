@@ -1,19 +1,28 @@
-import { Link, NavLink } from "react-router";
+import { Link } from "react-router";
 import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
-import { LayoutDashboard, LogOut, UserCog } from "lucide-react";
+import {
+  GraduationCap,
+  Home,
+  LayoutDashboard,
+  LogOut,
+  UserCog,
+} from "lucide-react";
 import ProfileNav from "../../../components/ProfileNav/ProfileNav";
 import MyLink from "../../../components/MyLink/MyLink";
 import toast from "react-hot-toast";
-
+import profileLoading from "../../../assets/animations/profileLoading.json";
+import Lottie from "lottie-react";
 const publicLinks = [
   {
     label: "Home",
     link: "/",
+    icon: Home,
   },
   {
     label: "All Scholarships",
     link: "/scholarships",
+    icon: GraduationCap,
   },
 ];
 
@@ -29,22 +38,22 @@ const Navbar = () => {
     <>
       <li>
         <Link className={"mb-2.5 bg-base-100 text-[#000000]"} to={"/profile"}>
-          {/* <UserCog /> */}
+          <UserCog size={18} />
           Profile
         </Link>
       </li>
       <li>
         <Link className={"mb-2.5 bg-base-100 text-[#000000]"} to={"/dashboard"}>
-          {/* <LayoutDashboard /> */}
+          <LayoutDashboard size={18} />
           Dashboard
         </Link>
       </li>
       <li>
         <button
           onClick={handleSign}
-          className="text-red-500 flex items-center gap-1 mb-2.5 bg-base-100"
+          className="text-red-500 flex items-center gap-2 mb-2.5 bg-base-100"
         >
-          {/* <LogOut /> */}
+          <LogOut size={18} />
           Log out
         </button>
       </li>
@@ -73,7 +82,7 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="flex items-center gap-5 text-accent text-base font-semibold tracking-wide">
             {publicLinks.map((link) => (
-              <li key={link.label}>
+              <li key={link.label} className="flex items-center">
                 <MyLink link={link} />
               </li>
             ))}
@@ -111,7 +120,11 @@ const Navbar = () => {
           </div>
           <div className="hidden lg:flex gap-4">
             {authLoading ? (
-              <div>Loading</div>
+              <Lottie
+                animationData={profileLoading}
+                loop
+                className="h-12"
+              />
             ) : user ? (
               <ProfileNav
                 className={"dropdown-end"}

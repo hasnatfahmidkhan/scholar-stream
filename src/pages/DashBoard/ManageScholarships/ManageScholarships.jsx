@@ -12,8 +12,6 @@ import {
   Plus,
   GraduationCap,
   AlertTriangle,
-  Loader2,
-  Filter,
   X,
   CircleX,
 } from "lucide-react";

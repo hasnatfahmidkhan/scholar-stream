@@ -15,6 +15,7 @@ import DashBoardHome from "../pages/DashBoard/DashBoardHome/DashBoardHome";
 import UserProfile from "../pages/DashBoard/UserProfile/UserProfile";
 import ManageScholarships from "../pages/DashBoard/ManageScholarships/ManageScholarships";
 import EditScholarship from "../pages/DashBoard/ManageScholarships/EditScholarship/EditScholarship";
+import ManageUsers from "../pages/DashBoard/ManageUsers/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -93,7 +94,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/manage-users",
-        Component: AddScholarship,
+        Component: ManageUsers,
       },
       {
         path: "/dashboard/me",
