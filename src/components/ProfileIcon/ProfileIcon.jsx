@@ -1,16 +1,24 @@
+import { useState } from "react";
+
 const ProfileIcon = ({ user }) => {
+  const [imageError, setImageError] = useState(false);
   return (
     <div
       tabIndex={0}
       role="button"
       className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 cursor-pointer relative"
     >
-      <img
-        className="w-full h-full object-cover rounded-full"
-        src={user?.photoURL}
-        alt={user?.displayName}
-        onError={(e) => (e.target.src = "profile.png")}
-      />
+      {imageError ? (
+        <div className="w-full h-full rounded-full bg-primary flex items-center justify-center text-primary-content text-2xl font-bold">
+          {user?.displayName?.charAt(0)?.toUpperCase() || "U"}
+        </div>
+      ) : (
+        <img
+          src={user?.photoURL}
+          alt={user?.displayName || "User"}
+          onError={() => setImageError(true)}
+        />
+      )}
     </div>
   );
 };

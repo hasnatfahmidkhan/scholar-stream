@@ -15,9 +15,11 @@ import useAuth from "../../hooks/useAuth";
 import ProfileIcon from "../../components/ProfileIcon/ProfileIcon";
 import toast from "react-hot-toast";
 import ScrollToTop from "../../components/ScrollToUp/ScrollToUp";
+import { useState } from "react";
 
 const DashBoardLayout = () => {
   const { user, signOutFunc } = useAuth();
+  const [imageError, setImageError] = useState(false);
 
   const userMenu = [
     {
@@ -97,7 +99,7 @@ const DashBoardLayout = () => {
                 </li>
                 <div className="divider my-0"></div>
                 <li>
-                  <Link to="/dashboard">
+                  <Link to="/dashboard/me">
                     <User className="size-4" />
                     Profile
                   </Link>
@@ -151,11 +153,17 @@ const DashBoardLayout = () => {
               {/* User Avatar */}
               <div className="avatar">
                 <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1">
-                  <img
-                    src={user?.photoURL}
-                    alt={user?.displayName || "User"}
-                    onError={(e) => (e.target.src = "profile.png")}
-                  />
+                  {imageError ? (
+                    <div className="w-full h-full bg-primary flex items-center justify-center text-primary-content text-2xl font-bold">
+                      {user?.displayName?.charAt(0)?.toUpperCase() || "U"}
+                    </div>
+                  ) : (
+                    <img
+                      src={user?.photoURL}
+                      alt={user?.displayName || "User"}
+                      onError={() => setImageError(true)}
+                    />
+                  )}
                 </div>
               </div>
               <div className="flex-1 min-w-0">
