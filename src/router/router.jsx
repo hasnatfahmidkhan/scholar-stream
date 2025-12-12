@@ -14,6 +14,7 @@ import AddScholarship from "../pages/DashBoard/AddScholarship/AddScholarship";
 import DashBoardHome from "../pages/DashBoard/DashBoardHome/DashBoardHome";
 import UserProfile from "../pages/DashBoard/UserProfile/UserProfile";
 import ManageScholarships from "../pages/DashBoard/ManageScholarships/ManageScholarships";
+import EditScholarship from "../pages/DashBoard/ManageScholarships/EditScholarship/EditScholarship";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage-scholarships",
         Component: ManageScholarships,
+      },
+      {
+        path: "/dashboard/edit-scholarship/:id",
+        Component: EditScholarship,
       },
       {
         path: "/dashboard/manage-users",
