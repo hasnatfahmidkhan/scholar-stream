@@ -193,7 +193,14 @@ const Analytics = () => {
                       fill="#8884d8"
                       name="Applications"
                       radius={[0, 4, 4, 0]}
-                    />
+                    >
+                      {appsByUniversity?.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
