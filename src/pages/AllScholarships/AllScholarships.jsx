@@ -30,7 +30,6 @@ const AllScholarships = () => {
     setLoc("");
     setSort("");
   };
-  console.log(sort);
 
   const hasActiveFilter = search || schCat || subCat || loc || sort;
 

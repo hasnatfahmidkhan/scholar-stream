@@ -30,7 +30,7 @@ const DashBoardLayout = () => {
       icon: User,
     },
     {
-      path: "/dashboard/add-scholarships",
+      path: "/dashboard/add-scholarship",
       label: "Add Scholarships",
       icon: Award,
     },

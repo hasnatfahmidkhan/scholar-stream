@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Search = ({ setSearch }) => {
+const Search = ({ setSearch, className }) => {
   const [srch, setSrch] = useState("");
   const handleSearch = (e) => {
     setSrch(e.target.value);
@@ -12,7 +12,9 @@ const Search = ({ setSearch }) => {
     return () => clearTimeout(timer);
   }, [setSrch, srch, setSearch]);
   return (
-    <label className="input focus-within:outline-none focus-within:border-primary">
+    <label
+      className={`input focus-within:outline-none focus-within:border-primary ${className}`}
+    >
       <svg
         className="h-[1em] opacity-50"
         xmlns="http://www.w3.org/2000/svg"

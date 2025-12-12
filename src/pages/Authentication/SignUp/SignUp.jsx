@@ -112,7 +112,9 @@ const SignUp = () => {
                 <fieldset className="fieldset space-y-2">
                   {/* Name Field */}
                   <div>
-                    <label className="custom-label">Name</label>
+                    <label className="custom-label">
+                      Name<span className="text-error">*</span>
+                    </label>
                     <input
                       type="text"
                       className={`input focus:border-primary focus:outline-none w-full ${
@@ -140,9 +142,7 @@ const SignUp = () => {
 
                   {/* Image URL Field */}
                   <div>
-                    <label className="custom-label">
-                      Image URL <span className="text-error">*</span>
-                    </label>
+                    <label className="custom-label">Image URL</label>
                     <input
                       type="url"
                       className={`input focus:border-primary focus:outline-none w-full ${
@@ -170,7 +170,9 @@ const SignUp = () => {
 
                   {/* Email Field */}
                   <div>
-                    <label className="custom-label">Email</label>
+                    <label className="custom-label">
+                      Email<span className="text-error">*</span>
+                    </label>
                     <input
                       type="email"
                       className={`input focus:border-primary focus:outline-none w-full ${
@@ -194,7 +196,9 @@ const SignUp = () => {
 
                   {/* Password Field */}
                   <div>
-                    <label className="custom-label">Password</label>
+                    <label className="custom-label">
+                      Password<span className="text-error">*</span>
+                    </label>
                     <div className="relative flex items-center">
                       <input
                         type={showPassword ? "text" : "password"}

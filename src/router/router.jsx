@@ -13,6 +13,7 @@ import DashBoardLayout from "../layout/DashBoardLayout/DashBoardLayout";
 import AddScholarship from "../pages/DashBoard/AddScholarship/AddScholarship";
 import DashBoardHome from "../pages/DashBoard/DashBoardHome/DashBoardHome";
 import UserProfile from "../pages/DashBoard/UserProfile/UserProfile";
+import ManageScholarships from "../pages/DashBoard/ManageScholarships/ManageScholarships";
 
 const router = createBrowserRouter([
   {
@@ -78,12 +79,12 @@ const router = createBrowserRouter([
         Component: DashBoardHome,
       },
       {
-        path: "/dashboard/add-scholarships",
+        path: "/dashboard/add-scholarship",
         Component: AddScholarship,
       },
       {
         path: "/dashboard/manage-scholarships",
-        Component: AddScholarship,
+        Component: ManageScholarships,
       },
       {
         path: "/dashboard/manage-users",
