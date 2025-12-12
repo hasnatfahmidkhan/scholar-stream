@@ -15,6 +15,7 @@ import {
   Loader2,
   Filter,
   X,
+  CircleX,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
@@ -28,7 +29,7 @@ const ManageScholarships = () => {
   const [deleteId, setDeleteId] = useState(null);
 
   const deleteModalRef = useRef(null);
-  const axiosInstance = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: scholarships = [],
@@ -37,7 +38,7 @@ const ManageScholarships = () => {
   } = useQuery({
     queryKey: ["scholarships", schCat, subCat, loc, search, sort],
     queryFn: async () => {
-      const { data } = await axiosInstance.get(
+      const { data } = await axiosSecure.get(
         `/scholarships?schCat=${schCat}&subCat=${subCat}&loc=${loc}&sort=${sort}&search=${search}`
       );
       return data;
@@ -97,11 +98,13 @@ const ManageScholarships = () => {
 
   const confirmDelete = async () => {
     try {
-      await axiosInstance.delete(`/scholarships/${deleteId}`);
-      toast.success("Scholarship deleted successfully!");
-      refetch();
-      deleteModalRef.current?.close();
-      setDeleteId(null);
+      const { data } = await axiosSecure.delete(`/scholarship/${deleteId}`);
+      if (data.deletedCount) {
+        toast.success("Scholarship deleted successfully!");
+        refetch();
+        deleteModalRef.current?.close();
+        setDeleteId(null);
+      }
     } catch (error) {
       toast.error("Failed to delete scholarship");
     }
@@ -405,7 +408,10 @@ const ManageScholarships = () => {
 
           <div className="modal-action justify-center">
             <form method="dialog">
-              <button className="btn btn-ghost">Cancel</button>
+              <button className="btn gap-2">
+                <CircleX className="size-4" />
+                Cancel
+              </button>
             </form>
             <button onClick={confirmDelete} className="btn btn-error gap-2">
               <Trash2 className="size-4" />
