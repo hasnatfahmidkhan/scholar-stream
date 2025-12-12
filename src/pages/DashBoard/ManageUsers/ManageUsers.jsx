@@ -91,11 +91,15 @@ const ManageUsers = () => {
 
   const confirmRoleChange = async () => {
     try {
-      await axiosSecure.patch(`/users/${selectedUser._id}`, { role: newRole });
-      toast.success(`Role updated to ${newRole}!`);
-      refetch();
-      roleModalRef.current?.close();
-      setSelectedUser(null);
+      const { data } = await axiosSecure.patch(`/users/${selectedUser._id}`, {
+        role: newRole,
+      });
+      if (data.modifiedCount) {
+        toast.success(`Role updated to ${newRole}!`);
+        refetch();
+        roleModalRef.current?.close();
+        setSelectedUser(null);
+      }
     } catch (error) {
       toast.error("Failed to update role");
     }
@@ -251,14 +255,14 @@ const ManageUsers = () => {
                           <div className="avatar">
                             <div className="w-10 h-10 rounded-full">
                               <img
-                                src={user.photoURL || user.image}
-                                alt={user.name}
+                                src={user.photoURL || "/profile.png"}
+                                alt={user.displayName}
                                 onError={(e) => (e.target.src = "/profile.png")}
                               />
                             </div>
                           </div>
                           <div>
-                            <p className="font-medium">{user.name}</p>
+                            <p className="font-medium">{user.displayName}</p>
                           </div>
                         </div>
                       </td>
@@ -330,14 +334,14 @@ const ManageUsers = () => {
                 <div className="avatar">
                   <div className="w-14 h-14 rounded-full">
                     <img
-                      src={selectedUser.photoURL || selectedUser.image}
-                      alt={selectedUser.name}
+                      src={selectedUser.photoURL || "/profile.png"}
+                      alt={selectedUser.displayName}
                       onError={(e) => (e.target.src = "/profile.png")}
                     />
                   </div>
                 </div>
                 <div>
-                  <p className="font-semibold">{selectedUser.name}</p>
+                  <p className="font-semibold">{selectedUser.displayName}</p>
                   <p className="text-sm text-gray-500">{selectedUser.email}</p>
                   <div className="mt-1">{getRoleBadge(selectedUser.role)}</div>
                 </div>
@@ -382,7 +386,7 @@ const ManageUsers = () => {
                     <div className="flex-1">
                       <p className="font-medium">Moderator</p>
                       <p className="text-xs text-gray-500">
-                        Can manage scholarships and applications
+                        Can review applications and provide feedback
                       </p>
                     </div>
                   </label>
@@ -393,12 +397,12 @@ const ManageUsers = () => {
                       type="radio"
                       name="role"
                       className="radio radio-primary"
-                      checked={newRole === "user"}
-                      onChange={() => setNewRole("user")}
+                      checked={newRole === "student"}
+                      onChange={() => setNewRole("student")}
                     />
                     <Shield className="size-5 text-primary" />
                     <div className="flex-1">
-                      <p className="font-medium">User</p>
+                      <p className="font-medium">Student</p>
                       <p className="text-xs text-gray-500">
                         Can apply for scholarships
                       </p>
@@ -411,7 +415,7 @@ const ManageUsers = () => {
 
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-ghost">Cancel</button>
+              <button className="btn">Cancel</button>
             </form>
             <button
               onClick={confirmRoleChange}
@@ -446,14 +450,14 @@ const ManageUsers = () => {
                   <div className="avatar">
                     <div className="w-12 h-12 rounded-full">
                       <img
-                        src={selectedUser.photoURL || selectedUser.image}
-                        alt={selectedUser.name}
+                        src={selectedUser.photoURL || "/profile.png"}
+                        alt={selectedUser?.displayName}
                         onError={(e) => (e.target.src = "/profile.png")}
                       />
                     </div>
                   </div>
                   <div className="text-left">
-                    <p className="font-medium">{selectedUser.name}</p>
+                    <p className="font-medium">{selectedUser?.displayName}</p>
                     <p className="text-sm text-gray-500">
                       {selectedUser.email}
                     </p>
@@ -467,9 +471,9 @@ const ManageUsers = () => {
             )}
           </div>
 
-          <div className="modal-action justify-center">
+          <div className="modal-action justify-center gap-4">
             <form method="dialog">
-              <button className="btn btn-ghost">Cancel</button>
+              <button className="btn">Cancel</button>
             </form>
             <button onClick={confirmDelete} className="btn btn-error gap-2">
               <Trash2 className="size-4" />
