@@ -16,36 +16,55 @@ import ProfileIcon from "../../components/ProfileIcon/ProfileIcon";
 import toast from "react-hot-toast";
 import ScrollToTop from "../../components/ScrollToUp/ScrollToUp";
 import { useState } from "react";
+import useRole from "../../hooks/useRole";
 
 const DashBoardLayout = () => {
   const { user, signOutFunc } = useAuth();
   const [imageError, setImageError] = useState(false);
+  const role = useRole();
 
   const userMenu = [
     {
-      path: "/dashboard",
+      path: "/dashboard/analytics",
       label: "Analytics",
       icon: BarChart2,
+      role: ["admin"],
     },
     {
-      path: "/dashboard/me",
+      path: "/dashboard",
       label: "Profile",
       icon: User,
+      role: ["student", "moderator", "admin"],
+    },
+    {
+      path: "/dashboard/manage-applications",
+      label: "Manage Applications",
+      icon: User,
+      role: ["moderator"],
+    },
+    {
+      path: "/dashboard/manage-reviews",
+      label: "Manage Reviews",
+      icon: User,
+      role: ["moderator"],
     },
     {
       path: "/dashboard/add-scholarship",
       label: "Add Scholarships",
       icon: Award,
+      role: ["admin"],
     },
     {
       path: "/dashboard/manage-scholarships",
       label: "Manage Scholarships",
       icon: Edit3,
+      role: ["admin"],
     },
     {
       path: "/dashboard/manage-users",
       label: "Manage Users",
       icon: Users,
+      role: ["admin"],
     },
   ];
 
@@ -142,7 +161,9 @@ const DashBoardLayout = () => {
               </div>
               <div>
                 <h1 className="text-lg font-bold">Scholar Stream</h1>
-                <p className="text-xs text-gray-500">Dashboard</p>
+                <p className="text-xs text-gray-500 capitalize">
+                  {role} Dashboard
+                </p>
               </div>
             </Link>
           </div>
@@ -180,25 +201,30 @@ const DashBoardLayout = () => {
             <ul className="space-y-2">
               {userMenu.map((link) => (
                 <li key={link.path}>
-                  <NavLink
-                    end
-                    to={link.path}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                        isActive
-                          ? "bg-primary text-primary-content shadow-md"
-                          : "hover:bg-base-200"
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <link.icon className="size-5" />
-                        <span className="flex-1">{link.label}</span>
-                        {isActive && <ChevronRight className="size-4" />}
-                      </>
-                    )}
-                  </NavLink>
+                  {link.role?.map(
+                    (r) =>
+                      r.includes(role) && (
+                        <NavLink
+                          end
+                          to={link.path}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                              isActive
+                                ? "bg-primary text-primary-content shadow-md"
+                                : "hover:bg-base-200"
+                            }`
+                          }
+                        >
+                          {({ isActive }) => (
+                            <>
+                              <link.icon className="size-5" />
+                              <span className="flex-1">{link.label}</span>
+                              {isActive && <ChevronRight className="size-4" />}
+                            </>
+                          )}
+                        </NavLink>
+                      )
+                  )}
                 </li>
               ))}
             </ul>
