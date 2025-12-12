@@ -14,6 +14,7 @@ import { NavLink, Outlet, Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import ProfileIcon from "../../components/ProfileIcon/ProfileIcon";
 import toast from "react-hot-toast";
+import ScrollToTop from "../../components/ScrollToUp/ScrollToUp";
 
 const DashBoardLayout = () => {
   const { user, signOutFunc } = useAuth();
@@ -121,6 +122,7 @@ const DashBoardLayout = () => {
 
         {/* Page Content */}
         <main className="flex-1 p-4 md:p-6 lg:p-8">
+          <ScrollToTop />
           <Outlet />
         </main>
       </div>
