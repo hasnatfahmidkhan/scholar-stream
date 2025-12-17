@@ -14,7 +14,7 @@ const ProfileIcon = ({ user }) => {
         </div>
       ) : (
         <img
-          src={user?.photoURL}
+          src={user?.photoURL || "/profile.png"}
           alt={user?.displayName || "User"}
           onError={() => setImageError(true)}
         />
