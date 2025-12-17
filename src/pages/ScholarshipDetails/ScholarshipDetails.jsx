@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import Container from "../../components/Container/Container";
 import {
@@ -54,6 +54,25 @@ const ScholarshipDetails = () => {
   });
 
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const { data: wishlistStatus } = useQuery({
+    queryKey: ["wishlist-status", id, user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(
+        `/wishlists/check/${id}?email=${user?.email}`
+      );
+      return data;
+    },
+    enabled: !!user?.email && !!id,
+  });
+
+  useEffect(() => {
+    if (wishlistStatus?.isSaved) {
+      setIsBookmarked(true);
+    } else {
+      setIsBookmarked(false);
+    }
+  }, [wishlistStatus]);
+  
   const handleSaveScholaship = async () => {
     setSaveLoading(true);
     const wishlistData = {
