@@ -1,16 +1,9 @@
 import { Navigate } from "react-router";
 import useRole from "../../../hooks/useRole";
 import Analytics from "../Analytics/Analytics";
-import useAuth from "../../../hooks/useAuth";
-import Spinner from "../../../components/Spinner/Spinner";
 
 const DashBoardHome = () => {
-  const { authLoading } = useAuth();
-  const { role, roleLoading } = useRole();
-
-  if (authLoading || roleLoading) {
-    return <Spinner />;
-  }
+  const { role } = useRole();
 
   if (role === "admin") {
     return <Analytics />;

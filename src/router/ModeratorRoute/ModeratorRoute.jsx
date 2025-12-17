@@ -1,18 +1,18 @@
+import useRole from "../../hooks/useRole";
+import useAuth from "../../hooks/useAuth";
 import Forbidden from "../../components/Forbidden/Forbidden";
 import Spinner from "../../components/Spinner/Spinner";
-import useAuth from "../../hooks/useAuth";
-import useRole from "../../hooks/useRole";
 
-const AdminRoute = ({ children }) => {
+const ModeratorRoute = ({ children }) => {
   const { role, roleLoading } = useRole();
   const { authLoading } = useAuth();
   if (roleLoading || authLoading) {
     return <Spinner />;
   }
-  if (role !== "admin") {
+  if (role !== "moderator") {
     return <Forbidden />;
   }
   return children;
 };
 
-export default AdminRoute;
+export default ModeratorRoute;

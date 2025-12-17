@@ -1,4 +1,3 @@
-import Spinner from "../components/Spinner/Spinner";
 import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";

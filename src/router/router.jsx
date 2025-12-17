@@ -17,6 +17,9 @@ import ManageScholarships from "../pages/DashBoard/ManageScholarships/ManageScho
 import EditScholarship from "../pages/DashBoard/ManageScholarships/EditScholarship/EditScholarship";
 import ManageUsers from "../pages/DashBoard/ManageUsers/ManageUsers";
 import AdminRoute from "./AdminRoute/AdminRoute";
+import ModeratorRoute from "./ModeratorRoute/ModeratorRoute";
+import ManageApplications from "../pages/DashBoard/Moderator/ManageApplications/ManageApplications";
+import ManageReviews from "../pages/DashBoard/Moderator/ManageReviews/ManageReviews";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +84,7 @@ const router = createBrowserRouter([
         path: "/dashboard",
         Component: DashBoardHome,
       },
+      //! Admin route
       {
         path: "/dashboard/add-scholarship",
         element: (
@@ -113,10 +117,29 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      //! Admin Route
       {
         path: "/dashboard/me",
         Component: UserProfile,
       },
+      //? Moderator Route
+      {
+        path: "/dashboard/manage-applications",
+        element: (
+          <ModeratorRoute>
+            <ManageApplications />
+          </ModeratorRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manage-reviews",
+        element: (
+          <ModeratorRoute>
+            <ManageReviews />
+          </ModeratorRoute>
+        ),
+      },
+      //? Moderator Route
     ],
   },
 ]);
