@@ -25,7 +25,7 @@ const ReviewModal = ({
   } = useForm({
     defaultValues: {
       rating: 0,
-      reviewComment: "",
+      comment: "",
     },
   });
 
@@ -138,10 +138,10 @@ const ReviewModal = ({
             </label>
             <textarea
               className={`textarea textarea-bordered h-32 w-full focus:outline-none focus:border-primary ${
-                errors.reviewComment ? "textarea-error" : ""
+                errors.comment ? "textarea-error" : ""
               }`}
               placeholder="Share your experience with this scholarship..."
-              {...register("reviewComment", {
+              {...register("comment", {
                 required: "Review comment is required",
                 minLength: {
                   value: 10,
@@ -149,9 +149,9 @@ const ReviewModal = ({
                 },
               })}
             />
-            {errors.reviewComment && (
+            {errors.comment && (
               <span className="text-error text-sm mt-1">
-                {errors.reviewComment.message}
+                {errors.comment.message}
               </span>
             )}
           </div>

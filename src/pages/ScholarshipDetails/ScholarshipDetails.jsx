@@ -24,6 +24,7 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import ReviewModal from "./ReviewModal";
 import toast from "react-hot-toast";
+import Spinner from "../../components/Spinner/Spinner";
 
 const ScholarshipDetails = () => {
   const [paymentLoading, setPaymentLoading] = useState(false);
@@ -31,7 +32,7 @@ const ScholarshipDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const { data: scholarship } = useQuery({
+  const { data: scholarship, isLoading: scholarshipLoading } = useQuery({
     queryKey: ["scholarship", id],
     queryFn: async () => {
       const { data } = await axiosSecure(`/scholarship/${id}`);
@@ -39,8 +40,24 @@ const ScholarshipDetails = () => {
     },
   });
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const {
+    data: reviews = [],
+    isLoading: reviewLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["reviews", id],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/reviews/${id}`);
+      return data;
+    },
+  });
 
-  // Sample data - replace with actual API call
+  console.log(reviews);
+
+  if (scholarshipLoading || reviewLoading) {
+    return <Spinner />;
+  }
+
   const {
     _id,
     scholarshipName,
@@ -137,6 +154,7 @@ const ScholarshipDetails = () => {
       if (data?.modifiedCount) {
         toast.success("Review updated");
       }
+      refetch();
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -526,54 +544,65 @@ const ScholarshipDetails = () => {
           <h2 className="text-2xl font-bold mb-6">Student Reviews</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                name: "John Doe",
-                avatar: "https://i.pravatar.cc/100?img=1",
-                rating: 5,
-                date: "2024-01-15",
-                comment:
-                  "Amazing scholarship opportunity! The application process was smooth and the support from the university was excellent.",
-              },
-              {
-                name: "Jane Smith",
-                avatar: "https://i.pravatar.cc/100?img=2",
-                rating: 4,
-                date: "2024-02-20",
-                comment:
-                  "Great experience overall. The program exceeded my expectations and opened many doors for my career.",
-              },
-            ].map((review, index) => (
-              <div key={index} className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                  <div className="flex items-center gap-4">
-                    <div className="avatar">
-                      <div className="w-12 rounded-full">
-                        <img src={review.avatar} alt={review.name} />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold">{review.name}</h4>
-                      <p className="text-sm text-gray-500">
-                        {formatDate(review.date)}
-                      </p>
-                    </div>
-                    <div className="rating rating-sm">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <input
-                          key={star}
-                          type="radio"
-                          className="mask mask-star-2 bg-warning"
-                          checked={star === review.rating}
-                          readOnly
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mt-3">{review.comment}</p>
+            {reviews?.length === 0 ? (
+              <div className="col-span-full card bg-base-100 shadow-xl">
+                <div className="card-body items-center text-center py-16">
+                  <MdFeedback className="text-7xl text-gray-300 mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-500">
+                    No Reviews Yet
+                  </h3>
+                  <p className="text-gray-400 max-w-sm">
+                    Be the first to share your experience with this scholarship!
+                  </p>
+                  <button
+                    className="btn btn-primary mt-6"
+                    onClick={() => setIsReviewModalOpen(true)}
+                  >
+                    <MdFeedback className="mr-1" />
+                    Write a Review
+                  </button>
                 </div>
               </div>
-            ))}
+            ) : (
+              reviews?.map((review, index) => (
+                <div key={index} className="card bg-base-100 shadow-xl">
+                  <div className="card-body">
+                    <div className="flex items-center gap-4">
+                      <div className="avatar">
+                        <div className="w-12 rounded-full">
+                          <img
+                            src={review?.avatar || "/profile.png"}
+                            alt={review?.name}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-bold">{review?.name}</h4>
+                        <p className="text-sm text-gray-500">
+                          {formatDate(
+                            review?.updatedAt
+                              ? review?.updatedAt
+                              : review?.createdAt
+                          )}
+                        </p>
+                      </div>
+                      <div className="rating rating-sm">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <input
+                            key={star}
+                            type="radio"
+                            className="mask mask-star-2 bg-warning"
+                            checked={star === review?.rating}
+                            readOnly
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mt-3">{review?.comment}</p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </Container>
