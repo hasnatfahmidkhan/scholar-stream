@@ -41,10 +41,10 @@ const ManageUsers = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", search, roleFilter],
+    queryKey: ["users", search, roleFilter, limit, page],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `/users?search=${search}&filter=${roleFilter}`
+        `/users?search=${search}&filter=${roleFilter}&limit=${limit}&page=${page}`
       );
       setTotalPages(Math.ceil(data.totalUsers / limit));
       return data.users;
