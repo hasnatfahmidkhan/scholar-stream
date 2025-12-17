@@ -22,12 +22,15 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdFeedback } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import ReviewModal from "./ReviewModal";
+import toast from "react-hot-toast";
 
 const ScholarshipDetails = () => {
   const [paymentLoading, setPaymentLoading] = useState(false);
   const { user } = useAuth();
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const { data: scholarship } = useQuery({
     queryKey: ["scholarship", id],
     queryFn: async () => {
@@ -84,6 +87,7 @@ const ScholarshipDetails = () => {
   // Total cost
   const totalCost = tuitionFees + applicationFees + serviceCharge;
 
+  // handle apply
   const handleApply = async () => {
     setPaymentLoading(true);
     const totalPrice = applicationFees + serviceCharge;
@@ -120,6 +124,25 @@ const ScholarshipDetails = () => {
       error;
     } finally {
       setPaymentLoading(false);
+    }
+  };
+
+  // handle review submit
+  const handleReviewSubmit = async (reviewData) => {
+    try {
+      const { data } = await axiosSecure.post("/reviews", reviewData);
+      if (data?.upsertedCount) {
+        toast.success("Review added");
+      }
+      if (data?.modifiedCount) {
+        toast.success("Review updated");
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Failed to submit review. Please try again.",
+      });
     }
   };
 
@@ -441,11 +464,26 @@ const ScholarshipDetails = () => {
                       <FaBookmark />
                       {isBookmarked ? "Saved" : "Save"}
                     </button>
-                    <button className="btn btn-outline flex-1">
+
+                    {/* Updated Review Button */}
+                    <button
+                      className="btn btn-outline flex-1"
+                      onClick={() => setIsReviewModalOpen(true)}
+                    >
                       <MdFeedback size={18} />
                       Review
                     </button>
                   </div>
+
+                  {/* Modal - Add at the end of the component, before closing tag */}
+                  <ReviewModal
+                    isOpen={isReviewModalOpen}
+                    onClose={() => setIsReviewModalOpen(false)}
+                    scholarshipName={scholarshipName}
+                    universityName={universityName}
+                    scholarshipId={_id}
+                    onSubmit={handleReviewSubmit}
+                  />
                 </div>
 
                 {/* Quick Info */}
@@ -484,7 +522,7 @@ const ScholarshipDetails = () => {
         </div>
 
         {/* Reviews Section */}
-        {/* <div className="mt-10">
+        <div className="mt-10">
           <h2 className="text-2xl font-bold mb-6">Student Reviews</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -537,7 +575,7 @@ const ScholarshipDetails = () => {
               </div>
             ))}
           </div>
-        </div> */}
+        </div>
       </Container>
     </div>
   );

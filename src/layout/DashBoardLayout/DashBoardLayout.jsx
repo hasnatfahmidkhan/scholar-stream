@@ -9,6 +9,8 @@ import {
   Edit3,
   Users,
   BarChart2,
+  FileCheck,
+  MessageSquareText,
 } from "lucide-react";
 import { NavLink, Outlet, Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
@@ -39,13 +41,13 @@ const DashBoardLayout = () => {
     {
       path: "/dashboard/manage-applications",
       label: "Manage Applications",
-      icon: User,
+      icon: FileCheck,
       role: ["moderator"],
     },
     {
       path: "/dashboard/manage-reviews",
       label: "Manage Reviews",
-      icon: User,
+      icon: MessageSquareText,
       role: ["moderator"],
     },
     {
