@@ -37,7 +37,10 @@ const Navbar = () => {
   const userLinks = (
     <>
       <li>
-        <Link className={"mb-2.5 bg-base-100 text-[#000000]"} to={"/profile"}>
+        <Link
+          className={"mb-2.5 bg-base-100 text-[#000000]"}
+          to={"/dashboard/me"}
+        >
           <UserCog size={18} />
           Profile
         </Link>
@@ -120,11 +123,7 @@ const Navbar = () => {
           </div>
           <div className="hidden lg:flex gap-4">
             {authLoading ? (
-              <Lottie
-                animationData={profileLoading}
-                loop
-                className="h-12"
-              />
+              <Lottie animationData={profileLoading} loop className="h-12" />
             ) : user ? (
               <ProfileNav
                 className={"dropdown-end"}

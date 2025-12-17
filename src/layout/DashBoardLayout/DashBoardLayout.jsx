@@ -199,12 +199,13 @@ const DashBoardLayout = () => {
           {/* Navigation Menu */}
           <nav className="flex-1 p-4">
             <ul className="space-y-2">
-              {userMenu.map((link) => (
-                <li key={link.path}>
+              {userMenu.map((link, index) => (
+                <li key={index}>
                   {link.role?.map(
-                    (r) =>
+                    (r, index) =>
                       r.includes(role) && (
                         <NavLink
+                          key={index}
                           end
                           to={link.path}
                           className={({ isActive }) =>

@@ -16,11 +16,13 @@ import useAuth from "../../../hooks/useAuth";
 import Container from "../../../components/Container/Container";
 import Lottie from "lottie-react";
 import useRole from "../../../hooks/useRole";
+import EditProfileModal from "./EditProfileModal";
 
 const UserProfile = () => {
   const { user, signOutFunc, authLoading } = useAuth();
   const [imageError, setImageError] = useState(false);
   const { role, roleLoading } = useRole();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -53,6 +55,7 @@ const UserProfile = () => {
 
   // Handle EditProfile
   const handleEditProfile = () => {
+    setIsEditModalOpen(true);
     console.log("Edit");
   };
   // Loading state
@@ -95,10 +98,6 @@ const UserProfile = () => {
                       />
                     )}
                   </div>
-                  {/* Edit Avatar Button */}
-                  <button className="absolute bottom-0 right-0 btn btn-circle btn-sm btn-primary">
-                    <Camera className="size-4" />
-                  </button>
                 </div>
 
                 {/* Name */}
@@ -141,6 +140,11 @@ const UserProfile = () => {
                     <Edit className="size-4" />
                     Edit Profile
                   </button>
+                  <EditProfileModal
+                    isOpen={isEditModalOpen}
+                    user={user}
+                    onClose={() => setIsEditModalOpen(false)}
+                  />
                   <button
                     onClick={handleLogout}
                     className="btn btn-outline btn-error btn-block gap-2"
