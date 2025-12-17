@@ -14,12 +14,11 @@ import {
   AlertTriangle,
   X,
   CircleX,
-  StepBack,
-  StepForward,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import useAuth from "../../../hooks/useAuth";
+import Pagination from "../../../components/Pagination/Pagination";
 
 const ManageScholarships = () => {
   const [schCat, setSchCat] = useState("");
@@ -232,7 +231,7 @@ const ManageScholarships = () => {
         <div className="card-body p-0">
           {isLoading ? (
             /* Loading State */
-            <div className="flex items-center justify-center py-20">
+            <div className="flex items-center justify-center h-[52vh]">
               <Lottie animationData={searchLoading} loop className="w-40" />
             </div>
           ) : scholarships.length === 0 ? (
@@ -397,34 +396,7 @@ const ManageScholarships = () => {
       </div>
 
       {/* pagination  */}
-      <div className="flex items-center  justify-center gap-4 p-2 mt-5">
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className="btn hover:btn-primary btn-sm"
-        >
-          <StepBack className="size-5" />
-        </button>
-        <div className="flex items-center justify-center gap-4">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              onClick={() => setPage(i + 1)}
-              className={`btn hover:btn-primary rounded-full shadow-sm ${
-                page - 1 === i && "btn-primary"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-        <button
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-          className="btn hover:btn-primary btn-sm"
-        >
-          <StepForward className="size-5" />
-        </button>
-      </div>
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
 
       {/* Delete Confirmation Modal */}
       <dialog

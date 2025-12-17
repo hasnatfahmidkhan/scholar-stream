@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import SearchInput from "../../AllScholarships/Search";
 import searchLoading from "../../../assets/animations/searchLoading.json";
 import Lottie from "lottie-react";
+import Pagination from "../../../components/Pagination/Pagination";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,6 +30,10 @@ const ManageUsers = () => {
 
   const roleModalRef = useRef(null);
   const deleteModalRef = useRef(null);
+
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 6;
+  const [page, setPage] = useState(1);
 
   // Fetch users
   const {
@@ -41,7 +46,8 @@ const ManageUsers = () => {
       const { data } = await axiosSecure.get(
         `/users?search=${search}&filter=${roleFilter}`
       );
-      return data;
+      setTotalPages(Math.ceil(data.totalUsers / limit));
+      return data.users;
     },
   });
 
@@ -318,6 +324,8 @@ const ManageUsers = () => {
           )}
         </div>
       </div>
+
+      <Pagination setPage={setPage} page={page} totalPages={totalPages} />
 
       {/* Role Change Modal */}
       <dialog ref={roleModalRef} className="modal modal-bottom sm:modal-middle">
