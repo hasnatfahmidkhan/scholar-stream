@@ -1,8 +1,9 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
 import {
   GraduationCap,
+  Heart,
   Home,
   LayoutDashboard,
   LogOut,
@@ -85,10 +86,25 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="flex items-center gap-5 text-accent text-base font-semibold tracking-wide">
             {publicLinks.map((link) => (
-              <li key={link.label} className="flex items-center">
+              <li key={link.label}>
                 <MyLink link={link} />
               </li>
             ))}
+            {user && (
+              <li>
+                <NavLink
+                  to={"/wishlist"}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "btn btn-primary border-none"
+                      : "btn btn-ghost border-none hover:btn-primary"
+                  }
+                >
+                  <Heart size={18} />
+                  WishList
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
         <div className="navbar-end">

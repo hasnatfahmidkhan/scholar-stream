@@ -52,8 +52,6 @@ const ScholarshipDetails = () => {
     },
   });
 
-  console.log(reviews);
-
   if (scholarshipLoading || reviewLoading) {
     return <Spinner />;
   }
