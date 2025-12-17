@@ -19,7 +19,7 @@ const AllScholarships = () => {
       const { data } = await axiosInstance.get(
         `/scholarships?schCat=${schCat}&subCat=${subCat}&loc=${loc}&sort=${sort}&search=${search}`
       );
-      return data;
+      return data.scholarships;
     },
   });
 

@@ -8,7 +8,7 @@ const TopScholarship = () => {
     queryKey: ["scholarships"],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/scholarships?limit=6");
-      return data;
+      return data.scholarships;
     },
   });
 
