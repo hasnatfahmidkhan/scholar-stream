@@ -32,6 +32,7 @@ const ScholarshipDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   const { data: scholarship, isLoading: scholarshipLoading } = useQuery({
     queryKey: ["scholarship", id],
     queryFn: async () => {
@@ -39,7 +40,7 @@ const ScholarshipDetails = () => {
       return data;
     },
   });
-  const [isBookmarked, setIsBookmarked] = useState(false);
+
   const {
     data: reviews = [],
     isLoading: reviewLoading,
@@ -51,6 +52,28 @@ const ScholarshipDetails = () => {
       return data;
     },
   });
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const handleSaveScholaship = async () => {
+    setSaveLoading(true);
+    const wishlistData = {
+      scholarshipId: _id,
+      userEmail: user?.email,
+    };
+
+    try {
+      // Add to wishlist
+      const { data } = await axiosSecure.post("/wishlists", wishlistData);
+      if (data?.insertedId) {
+        setIsBookmarked(true);
+        toast.success("Added to wishlist");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setSaveLoading(false);
+    }
+  };
 
   if (scholarshipLoading || reviewLoading) {
     return <Spinner />;
@@ -475,10 +498,14 @@ const ScholarshipDetails = () => {
                       className={`btn btn-outline flex-1 ${
                         isBookmarked ? "btn-secondary" : ""
                       }`}
-                      onClick={() => setIsBookmarked(!isBookmarked)}
+                      onClick={handleSaveScholaship}
                     >
                       <FaBookmark />
-                      {isBookmarked ? "Saved" : "Save"}
+                      {saveLoading
+                        ? "Saving..."
+                        : isBookmarked
+                        ? "Saved"
+                        : "Save"}
                     </button>
 
                     {/* Updated Review Button */}
