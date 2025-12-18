@@ -156,6 +156,7 @@ const ScholarshipDetails = () => {
       totalPrice,
       userName: user?.displayName,
       userEmail: user?.email,
+      userImage: user?.photoURL,
       universityName,
       universityImage,
       scholarshipId: _id,
