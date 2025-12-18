@@ -19,11 +19,12 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import Spinner from "../../../../components/Spinner/Spinner";
+import ReviewModal from "../../../ScholarshipDetails/ReviewModal";
+import Swal from "sweetalert2";
 
 const MyApplications = () => {
   const axiosSecure = useAxiosSecure();
@@ -32,24 +33,18 @@ const MyApplications = () => {
   const navigate = useNavigate();
 
   // State
-  const [selectedApp, setSelectedApp] = useState(null);
-  const [rating, setRating] = useState(5);
   const [deleteId, setDeleteId] = useState(null);
-
+  const [reviewApp, setReviewApp] = useState(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   // Modals Refs
-  const reviewModalRef = useRef(null);
   const deleteModalRef = useRef(null);
 
-  // React Hook Form for Review
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
   // Fetch Applications
-  const { data: applications = [], isLoading } = useQuery({
+  const {
+    data: applications = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["my-applications", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
@@ -60,7 +55,7 @@ const MyApplications = () => {
   });
 
   // Delete Mutation
-  const deleteMutation = useMutation({
+  const { mutate: deleteMutation } = useMutation({
     mutationFn: async (id) => {
       const { data } = await axiosSecure.delete(`/applications/${id}`);
       return data;
@@ -75,50 +70,38 @@ const MyApplications = () => {
     },
   });
 
-  // Review Mutation
-  const reviewMutation = useMutation({
-    mutationFn: async (reviewData) => {
-      const { data } = await axiosSecure.post("/reviews", reviewData);
-      return data;
-    },
-    onSuccess: () => {
-      toast.success("Review submitted successfully");
-      reviewModalRef.current?.close();
-      reset();
-    },
-    onError: () => {
-      toast.error("Failed to submit review");
-    },
-  });
-
   const handleDeleteClick = (id) => {
     setDeleteId(id);
     deleteModalRef.current?.showModal();
   };
 
   const confirmDelete = () => {
-    if (deleteId) deleteMutation.mutate(deleteId);
+    if (deleteId) deleteMutation(deleteId);
   };
 
-  const handleReviewClick = (app) => {
-    setSelectedApp(app);
-    reviewModalRef.current?.showModal();
+  const handleReview = (app) => {
+    setIsReviewModalOpen(true);
+    setReviewApp(app);
   };
 
-  const onReviewSubmit = (data) => {
-    const reviewData = {
-      scholarshipId: selectedApp.scholarshipId,
-      scholarshipName: selectedApp.scholarshipName,
-      universityName: selectedApp.universityName,
-      universityId: selectedApp.universityId,
-      userName: user.displayName,
-      userImage: user.photoURL,
-      userEmail: user.email,
-      rating: parseInt(rating),
-      comment: data.comment,
-      reviewDate: new Date().toISOString(),
-    };
-    reviewMutation.mutate(reviewData);
+  // handle review submit
+  const handleReviewSubmit = async (reviewData) => {
+    try {
+      const { data } = await axiosSecure.post("/reviews", reviewData);
+      if (data?.upsertedCount) {
+        toast.success("Review added");
+      }
+      if (data?.modifiedCount) {
+        toast.success("Review updated");
+      }
+      refetch();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Failed to submit review. Please try again.",
+      });
+    }
   };
 
   const handlePayment = (app) => {
@@ -296,15 +279,15 @@ const MyApplications = () => {
                         )}
 
                         {/* Add Review Button (Only if completed) */}
-                        {app.applicationStatus === "completed" && (
+                        {
                           <button
-                            onClick={() => handleReviewClick(app)}
+                            onClick={() => handleReview(app)}
                             className="btn btn-square btn-sm btn-ghost text-warning"
                             title="Add Review"
                           >
                             <Star className="size-4" />
                           </button>
-                        )}
+                        }
                       </div>
                     </td>
                   </tr>
@@ -316,87 +299,16 @@ const MyApplications = () => {
       </div>
 
       {/* Add Review Modal */}
-      <dialog
-        ref={reviewModalRef}
-        className="modal modal-bottom sm:modal-middle"
-      >
-        <div className="modal-box">
-          <h3 className="font-bold text-lg flex items-center gap-2 mb-4">
-            <Star className="text-warning fill-warning" />
-            Rate Your Experience
-          </h3>
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        scholarshipName={reviewApp?.scholarshipName}
+        universityName={reviewApp?.universityName}
+        scholarshipId={reviewApp?.scholarshipId}
+        onSubmit={handleReviewSubmit}
+      />
 
-          <form onSubmit={handleSubmit(onReviewSubmit)} className="space-y-4">
-            {/* University Name Display */}
-            <div className="text-center mb-4">
-              <p className="text-gray-500 text-sm">Reviewing</p>
-              <h4 className="font-bold text-lg">
-                {selectedApp?.universityName}
-              </h4>
-            </div>
-
-            {/* Rating Input */}
-            <div className="flex flex-col items-center gap-2">
-              <span className="label-text font-medium">Rating</span>
-              <div className="rating rating-lg">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <input
-                    key={star}
-                    type="radio"
-                    name="rating"
-                    className="mask mask-star-2 bg-warning"
-                    checked={rating === star}
-                    onChange={() => setRating(star)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Comment Input */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Your Review</span>
-              </label>
-              <textarea
-                className="textarea textarea-bordered h-24 focus:outline-none focus:border-primary"
-                placeholder="Share your experience with this university and scholarship process..."
-                {...register("comment", { required: "Review is required" })}
-              ></textarea>
-              {errors.comment && (
-                <span className="text-error text-xs mt-1">
-                  {errors.comment.message}
-                </span>
-              )}
-            </div>
-
-            <div className="modal-action">
-              <button
-                type="button"
-                onClick={() => reviewModalRef.current?.close()}
-                className="btn btn-ghost"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={reviewMutation.isPending}
-              >
-                {reviewMutation.isPending ? (
-                  <Loader2 className="animate-spin size-4" />
-                ) : (
-                  "Submit Review"
-                )}
-              </button>
-            </div>
-          </form>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
-      {/* 3. Delete Confirmation Modal */}
+      {/*  Delete Confirmation Modal */}
       <dialog
         ref={deleteModalRef}
         className="modal modal-bottom sm:modal-middle"
@@ -415,7 +327,7 @@ const MyApplications = () => {
 
           <div className="modal-action justify-center gap-3">
             <form method="dialog">
-              <button className="btn btn-ghost">No, Keep it</button>
+              <button className="btn">No, Keep it</button>
             </form>
             <button
               onClick={confirmDelete}
@@ -427,7 +339,7 @@ const MyApplications = () => {
               ) : (
                 <Trash2 className="size-4" />
               )}
-              Yes, Cancel it
+              Yes, Delete it
             </button>
           </div>
         </div>
