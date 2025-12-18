@@ -23,6 +23,7 @@ import ManageReviews from "../pages/DashBoard/Moderator/ManageReviews/ManageRevi
 import MyApplications from "../pages/DashBoard/Student/MyApplications/MyApplications";
 import ApplyScholarship from "../pages/ScholarshipDetails/ApplyScholarship";
 import EditApplication from "../pages/DashBoard/Student/EditApplication/EditApplication";
+import MyReviews from "../pages/DashBoard/Student/MyReviews/MyReviews";
 
 const router = createBrowserRouter([
   {
@@ -142,12 +143,6 @@ const router = createBrowserRouter([
           </ModeratorRoute>
         ),
       },
-      // Student
-      {
-        path: "/dashboard/my-application",
-        Component: MyApplications,
-      },
-      // Student
       {
         path: "/dashboard/manage-reviews",
         element: (
@@ -165,6 +160,16 @@ const router = createBrowserRouter([
         ),
       },
       //? Moderator Route
+      // Student
+      {
+        path: "/dashboard/my-application",
+        Component: MyApplications,
+      },
+      {
+        path: "/dashboard/my-reviews",
+        Component: MyReviews,
+      },
+      // Student
     ],
   },
 ]);
