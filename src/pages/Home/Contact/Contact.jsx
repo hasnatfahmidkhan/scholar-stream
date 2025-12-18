@@ -17,7 +17,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-20 bg-base-100" id="contact">
+    <section className="py-20" >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Side: Information */}

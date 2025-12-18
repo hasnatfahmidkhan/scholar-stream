@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import BannerImg from "../../../assets/banner-bg.jpg";
 
 const Banner = () => {
@@ -20,7 +21,9 @@ const Banner = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <button className="btn btn-primary">Top Scholarships</button>
+          <Link to={"/scholarships"} className="btn btn-primary">
+            All Scholarships
+          </Link>
         </div>
       </div>
     </div>

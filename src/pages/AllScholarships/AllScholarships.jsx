@@ -5,6 +5,7 @@ import ScholarshipCard from "../shared/ScholarshipCard/ScholarshipCard ";
 import Filters from "./Filters/Filters";
 import { useState } from "react";
 import Search from "./Search";
+import { Circle } from "lucide-react";
 
 const AllScholarships = () => {
   const [schCat, setSchCat] = useState("");
@@ -35,33 +36,50 @@ const AllScholarships = () => {
 
   return (
     <Container className={"py-20"}>
+      {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+        <div className="badge badge-primary badge-outline mb-4 px-4 py-3 font-semibold">
+          🎓 Your Future Awaits
+        </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-base-content">
           All <span className="text-primary">Scholarships</span>
         </h1>
-        <p className="text-gray-500 max-w-2xl mx-auto">
+        <p className="text-base-content/70 max-w-2xl mx-auto text-lg">
           Browse through hundreds of scholarship opportunities from top
-          universities worldwide.
+          universities worldwide. Find the perfect match for your academic
+          journey.
         </p>
       </div>
 
-      <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
-        {/* search  */}
-        <Search setSearch={setSearch} />
-        {/* filter  */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-          <Filters
-            setSchCat={setSchCat}
-            setSubCat={setSubCat}
-            setLoc={setLoc}
-            setSort={setSort}
-          />
-          {/* Reset  */}
-          {hasActiveFilter && (
-            <button onClick={handleReset} className="btn btn-outline btn-error">
-              Reset
-            </button>
-          )}
+      {/* Search & Filter Bar */}
+      <div className="card bg-base-100 shadow-lg border border-base-200 mb-10">
+        <div className="card-body p-4 md:p-6">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
+            {/* Search Input */}
+            <div className="w-full lg:w-auto flex-1 max-w-lg">
+              <Search setSearch={setSearch} />
+            </div>
+
+            {/* Filters & Reset */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto justify-end">
+              <Filters
+                setSchCat={setSchCat}
+                setSubCat={setSubCat}
+                setLoc={setLoc}
+                setSort={setSort}
+              />
+
+              {hasActiveFilter && (
+                <button
+                  onClick={handleReset}
+                  className="btn btn-error btn-outline btn-sm sm:btn-md gap-2 min-w-[100px]"
+                >
+                  <Circle className="size-4"/>
+                  Reset
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
