@@ -17,7 +17,7 @@ import {
   FaCheckCircle,
   FaInfoCircle,
 } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdFeedback } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
@@ -46,63 +46,6 @@ const ScholarshipDetails = () => {
   });
 
   const {
-    data: reviews = [],
-    isLoading: reviewLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["reviews", id],
-    queryFn: async () => {
-      const { data } = await axiosSecure.get(`/reviews/${id}`);
-      return data;
-    },
-  });
-
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const { data: wishlistStatus } = useQuery({
-    queryKey: ["wishlist-status", id, user?.email],
-    queryFn: async () => {
-      const { data } = await axiosSecure.get(
-        `/wishlists/check/${id}?email=${user?.email}`
-      );
-      return data;
-    },
-    enabled: !!user?.email && !!id,
-  });
-
-  useEffect(() => {
-    if (wishlistStatus?.isSaved) {
-      setIsBookmarked(true);
-    } else {
-      setIsBookmarked(false);
-    }
-  }, [wishlistStatus]);
-
-  const handleSaveScholaship = async () => {
-    setSaveLoading(true);
-    const wishlistData = {
-      scholarshipId: _id,
-      userEmail: user?.email,
-    };
-
-    try {
-      // Add to wishlist
-      const { data } = await axiosSecure.post("/wishlists", wishlistData);
-      if (data?.insertedId) {
-        setIsBookmarked(true);
-        toast.success("Added to wishlist");
-      }
-    } catch (error) {
-      toast.error("Something went wrong!");
-    } finally {
-      setSaveLoading(false);
-    }
-  };
-
-  if (scholarshipLoading || reviewLoading) {
-    return <Spinner />;
-  }
-
-  const {
     _id,
     scholarshipName,
     universityName,
@@ -124,6 +67,90 @@ const ScholarshipDetails = () => {
     includes,
     aboutUniversity,
   } = scholarship || {};
+
+  const {
+    data: reviews = [],
+    isLoading: reviewLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["reviews", id],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/reviews/${id}`);
+      return data;
+    },
+  });
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const {
+    data: wishlistStatus = { isSaved: false, id: null },
+    refetch: refetchWishlist,
+  } = useQuery({
+    queryKey: ["wishlist-status", id, user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(
+        `/wishlists/check/${id}?email=${user?.email}`
+      );
+      return data;
+    },
+    enabled: !!user?.email && !!id,
+  });
+
+  useEffect(() => {
+    setIsBookmarked(wishlistStatus.isSaved);
+  }, [wishlistStatus]);
+
+  const queryClient = useQueryClient();
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: async (wishlistId) => {
+      const { data } = await axiosSecure.delete(`/wishlists/${wishlistId}`);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["wishlists"]);
+      refetchWishlist();
+      setIsBookmarked(false);
+      toast.success("Removed from wishlist");
+    },
+    onError: () => {
+      toast.error("Failed to remove scholarship");
+    },
+  });
+
+  const handleSaveScholaship = async () => {
+    setSaveLoading(true);
+
+    try {
+      if (isBookmarked) {
+        // Remove
+        if (wishlistStatus?.id) {
+          deleteMutation(wishlistStatus.id);
+        } else {
+          console.error("Wishlist ID missing");
+        }
+      } else {
+        // Add
+        const wishlistData = {
+          scholarshipId: _id,
+          userEmail: user?.email,
+        };
+        const { data } = await axiosSecure.post("/wishlists", wishlistData);
+        if (data?.insertedId) {
+          refetchWishlist();
+          setIsBookmarked(true);
+          toast.success("Added to wishlist");
+        }
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
+  if (scholarshipLoading || reviewLoading) {
+    return <Spinner />;
+  }
 
   // Format date
   const formatDate = (dateString) => {

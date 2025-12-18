@@ -17,7 +17,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-20" >
+    <section className="py-20">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Side: Information */}
@@ -130,7 +130,7 @@ const Contact = () => {
                   <label className="label">
                     <span className="label-text font-medium">Subject</span>
                   </label>
-                  <select className="select select-bordered focus:outline-none focus:border-primary bg-base-200/30 w-full">
+                  <select className="select select-bordered focus:outline-none focus:border-primary bg-base-100 w-full">
                     <option disabled selected>
                       Select a topic
                     </option>

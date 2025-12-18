@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router";
 import {
   Trash2,
-  Eye,
   MapPin,
   GraduationCap,
   Loader2,
