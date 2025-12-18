@@ -25,6 +25,7 @@ import ApplyScholarship from "../pages/ScholarshipDetails/ApplyScholarship";
 import EditApplication from "../pages/DashBoard/Student/EditApplication/EditApplication";
 import MyReviews from "../pages/DashBoard/Student/MyReviews/MyReviews";
 import SuccessStories from "../pages/SuccessStories/SuccessStories";
+import WishList from "../pages/WishList/WishList";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,14 @@ const router = createBrowserRouter([
       {
         path: "/success-stories",
         Component: SuccessStories,
+      },
+      {
+        path: "/wishlist",
+        element: (
+          <PrivateRoute>
+            <WishList />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/signUp",
