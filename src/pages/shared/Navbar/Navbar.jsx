@@ -7,6 +7,7 @@ import {
   Home,
   LayoutDashboard,
   LogOut,
+  Trophy,
   UserCog,
 } from "lucide-react";
 import ProfileNav from "../../../components/ProfileNav/ProfileNav";
@@ -24,6 +25,11 @@ const publicLinks = [
     label: "All Scholarships",
     link: "/scholarships",
     icon: GraduationCap,
+  },
+  {
+    label: "Success Stories",
+    link: "/success-stories",
+    icon: Trophy,
   },
 ];
 
