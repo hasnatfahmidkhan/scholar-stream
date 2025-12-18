@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import Container from "../../components/Container/Container";
 import {
   FaUniversity,
@@ -27,12 +27,12 @@ import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner/Spinner";
 
 const ScholarshipDetails = () => {
-  const [paymentLoading, setPaymentLoading] = useState(false);
   const { user } = useAuth();
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     data: scholarship,
     isLoading: scholarshipLoading,
@@ -149,44 +149,8 @@ const ScholarshipDetails = () => {
   const totalCost = tuitionFees + applicationFees + serviceCharge;
 
   // handle apply
-  const handleApply = async () => {
-    setPaymentLoading(true);
-    const totalPrice = applicationFees + serviceCharge;
-    const scholarshipInfo = {
-      totalPrice,
-      userName: user?.displayName,
-      userEmail: user?.email,
-      userImage: user?.photoURL,
-      universityName,
-      universityImage,
-      scholarshipId: _id,
-      scholarshipName,
-      scholarshipCategory,
-      degree,
-      applicationFees,
-      serviceCharge,
-    };
-
-    try {
-      const { data } = await axiosSecure.post(
-        "/create-checkout-session",
-        scholarshipInfo
-      );
-
-      if (data?.url) {
-        window.location.href = data?.url;
-      } else if (!data?.insertedId) {
-        Swal.fire({
-          title: "The Application?",
-          text: data?.message,
-          icon: "info",
-        });
-      }
-    } catch (error) {
-      error;
-    } finally {
-      setPaymentLoading(false);
-    }
+  const handleApply = () => {
+    navigate(`/scholarship/${id}/apply`);
   };
 
   // handle review submit
@@ -508,14 +472,7 @@ const ScholarshipDetails = () => {
                     onClick={handleApply}
                     className="btn btn-primary btn-block btn-lg"
                   >
-                    {paymentLoading ? (
-                      <>
-                        <span className="loading loading-spinner"></span>
-                        <span>Loading...</span>
-                      </>
-                    ) : (
-                      "Apply Now"
-                    )}
+                    Apply now
                   </button>
 
                   <div className="flex gap-2">

@@ -40,13 +40,13 @@ const DashBoardLayout = () => {
       role: ["student", "moderator", "admin"],
     },
     {
-      path: "/my-application",
+      path: "/dashboard/my-application",
       label: "My Application",
       icon: ClipboardList,
       role: ["student"],
     },
     {
-      path: "/my-reviews",
+      path: "/dashboard/my-reviews",
       label: "My Reviews",
       icon: MessageSquareText,
       role: ["student"],

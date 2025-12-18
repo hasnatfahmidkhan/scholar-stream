@@ -20,6 +20,8 @@ import AdminRoute from "./AdminRoute/AdminRoute";
 import ModeratorRoute from "./ModeratorRoute/ModeratorRoute";
 import ManageApplications from "../pages/DashBoard/Moderator/ManageApplications/ManageApplications";
 import ManageReviews from "../pages/DashBoard/Moderator/ManageReviews/ManageReviews";
+import MyApplications from "../pages/DashBoard/Student/MyApplications/MyApplications";
+import ApplyScholarship from "../pages/ScholarshipDetails/ApplyScholarship";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ScholarshipDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/scholarship/:id/apply",
+        element: (
+          <PrivateRoute>
+            <ApplyScholarship />
           </PrivateRoute>
         ),
       },
@@ -131,6 +141,12 @@ const router = createBrowserRouter([
           </ModeratorRoute>
         ),
       },
+      // Student
+      {
+        path: "/dashboard/my-application",
+        Component: MyApplications,
+      },
+      // Student
       {
         path: "/dashboard/manage-reviews",
         element: (

@@ -102,7 +102,7 @@ const PaymentSuccess = () => {
             {/* Action Buttons */}
             <div className="space-y-3 w-full">
               <button
-                onClick={() => navigate("/dashboard/my-applications")}
+                onClick={() => navigate("/dashboard/my-application")}
                 className="btn btn-primary w-full shadow-lg shadow-blue-500/30 rounded-xl"
               >
                 Go to My Applications
