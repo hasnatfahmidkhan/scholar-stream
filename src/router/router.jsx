@@ -22,6 +22,7 @@ import ManageApplications from "../pages/DashBoard/Moderator/ManageApplications/
 import ManageReviews from "../pages/DashBoard/Moderator/ManageReviews/ManageReviews";
 import MyApplications from "../pages/DashBoard/Student/MyApplications/MyApplications";
 import ApplyScholarship from "../pages/ScholarshipDetails/ApplyScholarship";
+import EditApplication from "../pages/DashBoard/Student/EditApplication/EditApplication";
 
 const router = createBrowserRouter([
   {
@@ -153,6 +154,14 @@ const router = createBrowserRouter([
           <ModeratorRoute>
             <ManageReviews />
           </ModeratorRoute>
+        ),
+      },
+      {
+        path: "/dashboard/edit-application/:id",
+        element: (
+          <PrivateRoute>
+            <EditApplication />
+          </PrivateRoute>
         ),
       },
       //? Moderator Route

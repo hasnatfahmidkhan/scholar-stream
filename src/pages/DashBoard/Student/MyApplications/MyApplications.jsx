@@ -37,7 +37,6 @@ const MyApplications = () => {
   const [deleteId, setDeleteId] = useState(null);
 
   // Modals Refs
-  const detailsModalRef = useRef(null);
   const reviewModalRef = useRef(null);
   const deleteModalRef = useRef(null);
 
@@ -54,7 +53,7 @@ const MyApplications = () => {
     queryKey: ["my-applications", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `/applications/byUser?email=${user?.email}`
+        `/applications/${user?.email}/byUser`
       );
       return data;
     },
