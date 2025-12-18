@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -24,7 +24,7 @@ const ManageApplications = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
-
+  const feedbackModalRef = useRef();
   const [selectedApp, setSelectedApp] = useState(null);
   const [feedback, setFeedback] = useState("");
 
@@ -61,7 +61,7 @@ const ManageApplications = () => {
       return data;
     },
     onSuccess: () => {
-      document.getElementById("feedback_modal").close();
+      feedbackModalRef.current?.close();
       toast.success("Feedback sent successfully!");
       setFeedback("");
     },
@@ -88,7 +88,7 @@ const ManageApplications = () => {
 
   const openFeedbackModal = (app) => {
     setSelectedApp(app);
-    document.getElementById("feedback_modal").showModal();
+    feedbackModalRef.current?.showModal();
   };
 
   if (isLoading) {
@@ -259,7 +259,7 @@ const ManageApplications = () => {
 
       {/* Feedback Modal */}
       <dialog
-        id="feedback_modal"
+        ref={feedbackModalRef}
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="modal-box">
@@ -286,7 +286,7 @@ const ManageApplications = () => {
                 type="button"
                 className="btn"
                 onClick={() =>
-                  document.getElementById("feedback_modal").close()
+                  feedbackModalRef.current?.close()
                 }
               >
                 Cancel
