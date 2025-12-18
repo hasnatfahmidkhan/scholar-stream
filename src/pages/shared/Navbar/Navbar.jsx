@@ -78,8 +78,9 @@ const Navbar = () => {
           )}
           <Link
             to={"/"}
-            className="text-xl font-extrabold text-blue-500 uppercase"
+            className="flex items-center gap-2 text-xl font-extrabold text-blue-500 uppercase"
           >
+            <GraduationCap className="size-8" />
             Scholar Stream
           </Link>
         </div>

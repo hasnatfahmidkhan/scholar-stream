@@ -1,4 +1,5 @@
 import ScrollToTop from "../../components/ScrollToUp/ScrollToUp";
+import Footer from "../../pages/shared/Footer/Footer";
 import Navbar from "../../pages/shared/Navbar/Navbar";
 import { Outlet } from "react-router";
 
@@ -10,6 +11,7 @@ const RootLayout = () => {
         <ScrollToTop />
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 };
