@@ -104,7 +104,7 @@ const WishList = () => {
           <p className="text-gray-400 mb-6">
             Browse scholarships and save them here for later.
           </p>
-          <Link to="/all-scholarships" className="btn btn-primary btn-wide">
+          <Link to="/scholarships" className="btn btn-primary btn-wide">
             Browse Scholarships
           </Link>
         </div>
