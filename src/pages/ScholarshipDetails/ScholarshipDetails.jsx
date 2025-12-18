@@ -33,7 +33,11 @@ const ScholarshipDetails = () => {
   const axiosSecure = useAxiosSecure();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
-  const { data: scholarship, isLoading: scholarshipLoading } = useQuery({
+  const {
+    data: scholarship,
+    isLoading: scholarshipLoading,
+    refetch: scholarshipRefetch,
+  } = useQuery({
     queryKey: ["scholarship", id],
     queryFn: async () => {
       const { data } = await axiosSecure(`/scholarship/${id}`);
@@ -72,7 +76,7 @@ const ScholarshipDetails = () => {
       setIsBookmarked(false);
     }
   }, [wishlistStatus]);
-  
+
   const handleSaveScholaship = async () => {
     setSaveLoading(true);
     const wishlistData = {
@@ -195,6 +199,7 @@ const ScholarshipDetails = () => {
         toast.success("Review updated");
       }
       refetch();
+      scholarshipRefetch();
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -621,7 +626,7 @@ const ScholarshipDetails = () => {
                         </div>
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-bold">{review?.name}</h4>
+                        <h4 className="font-bold capitalize">{review?.name}</h4>
                         <p className="text-sm text-gray-500">
                           {formatDate(
                             review?.updatedAt

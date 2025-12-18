@@ -32,7 +32,7 @@ const ManageUsers = () => {
   const deleteModalRef = useRef(null);
 
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 6;
+  const limit = 7;
   const [page, setPage] = useState(1);
 
   // Fetch users

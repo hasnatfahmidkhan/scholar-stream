@@ -11,6 +11,7 @@ import {
   BarChart2,
   FileCheck,
   MessageSquareText,
+  ClipboardList,
 } from "lucide-react";
 import { NavLink, Outlet, Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
@@ -37,6 +38,18 @@ const DashBoardLayout = () => {
       label: "Profile",
       icon: User,
       role: ["student", "moderator", "admin"],
+    },
+    {
+      path: "/my-application",
+      label: "My Application",
+      icon: ClipboardList,
+      role: ["student"],
+    },
+    {
+      path: "/my-reviews",
+      label: "My Reviews",
+      icon: MessageSquareText,
+      role: ["student"],
     },
     {
       path: "/dashboard/manage-applications",
