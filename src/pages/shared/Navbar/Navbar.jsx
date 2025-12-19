@@ -154,9 +154,14 @@ const Navbar = () => {
                 userLinks={userLinks}
               />
             ) : (
-              <Link to={"/signUp"} className="btn">
-                Sign Up
-              </Link>
+              <>
+                <Link to={"/signIn"} className="btn">
+                  Sign In
+                </Link>
+                <Link to={"/signUp"} className="btn btn-primary">
+                  Sign Up
+                </Link>
+              </>
             )}
           </div>
         </div>

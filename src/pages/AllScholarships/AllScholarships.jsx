@@ -74,7 +74,7 @@ const AllScholarships = () => {
                   onClick={handleReset}
                   className="btn btn-error btn-outline btn-sm sm:btn-md gap-2 min-w-[100px]"
                 >
-                  <Circle className="size-4"/>
+                  <Circle className="size-4" />
                   Reset
                 </button>
               )}

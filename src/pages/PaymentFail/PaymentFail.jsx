@@ -37,7 +37,7 @@ const PaymentFail = () => {
           </p>
           <div className="card-actions justify-center mt-2">
             <button
-              onClick={() => navigate("/dashboard/my-applications")}
+              onClick={() => navigate("/dashboard/my-application")}
               className="btn btn-primary rounded-xl w-full"
             >
               Go to my applications

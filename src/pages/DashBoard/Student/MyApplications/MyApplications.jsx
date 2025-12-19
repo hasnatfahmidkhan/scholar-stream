@@ -104,9 +104,33 @@ const MyApplications = () => {
     }
   };
 
-  const handlePayment = (app) => {
-    // Navigate to payment page with application details
-    navigate(`/payment/${app._id}`, { state: { application: app } });
+  const { mutateAsync: initiatePayment } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.post(`/retry-payment/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      // Redirect the user to the Stripe URL returned by the backend
+      window.location.href = data.url;
+    },
+    onError: (error) => {
+      console.error("Payment initiation failed", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response?.data?.message || "Failed to start payment",
+      });
+    },
+  });
+
+  // The function you asked for
+  const handlePayment = async (applicationId) => {
+    try {
+      await initiatePayment(applicationId);
+    } catch (err) {
+      // Errors are handled in onError above, but you can add logic here if needed
+      console.log(err);
+    }
   };
 
   // Status Badge Helper
@@ -259,7 +283,7 @@ const MyApplications = () => {
                         {app.applicationStatus === "pending" &&
                           app.paymentStatus !== "paid" && (
                             <button
-                              onClick={() => handlePayment(app)}
+                              onClick={() => handlePayment(app._id)}
                               className="btn btn-square btn-sm btn-ghost text-success"
                               title="Pay Application Fees"
                             >
