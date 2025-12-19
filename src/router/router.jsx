@@ -26,6 +26,7 @@ import EditApplication from "../pages/DashBoard/Student/EditApplication/EditAppl
 import MyReviews from "../pages/DashBoard/Student/MyReviews/MyReviews";
 import SuccessStories from "../pages/SuccessStories/SuccessStories";
 import WishList from "../pages/WishList/WishList";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -185,6 +186,10 @@ const router = createBrowserRouter([
       },
       // Student
     ],
+  },
+  {
+    path: "*",
+    Component: ErrorPage,
   },
 ]);
 export default router;

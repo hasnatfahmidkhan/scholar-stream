@@ -6,6 +6,7 @@ import Filters from "./Filters/Filters";
 import { useState } from "react";
 import Search from "./Search";
 import { Circle } from "lucide-react";
+import ScholarshipCardSkeleton from "../shared/ScholarshipCard/ScholarshipCardSkeleton";
 
 const AllScholarships = () => {
   const [schCat, setSchCat] = useState("");
@@ -14,7 +15,7 @@ const AllScholarships = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const axiosInstance = useAxios();
-  const { data: scholarships } = useQuery({
+  const { data: scholarships, isLoading } = useQuery({
     queryKey: ["scholarships", schCat, subCat, loc, search, sort],
     queryFn: async () => {
       const { data } = await axiosInstance.get(
@@ -84,9 +85,11 @@ const AllScholarships = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {scholarships?.length <= 0
-          ? ""
-          : scholarships?.map((scholarship) => (
+        {isLoading
+          ? [...Array(6)].map((_, index) => (
+              <ScholarshipCardSkeleton key={index} />
+            ))
+          : scholarships.map((scholarship) => (
               <ScholarshipCard
                 key={scholarship._id}
                 scholarship={scholarship}
