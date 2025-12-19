@@ -159,4 +159,8 @@ npm run dev
 🔮 Future Improvements
 Recommendation System: Suggest scholarships based on user profile and search history.
 Chat System: Live chat between students and moderators.
+<<<<<<< HEAD
 Email Notifications: Automated emails for application status changes.
+=======
+Email Notifications: Automated emails for application status changes.
+>>>>>>> d6942676efe55504ca5a79784dad7f966b20b5d6
