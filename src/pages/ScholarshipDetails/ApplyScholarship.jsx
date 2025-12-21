@@ -26,9 +26,10 @@ const ApplyScholarship = () => {
     queryKey: ["scholarship", id],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/scholarship/${id}`);
-      return data;
+      return data.details;
     },
   });
+  console.log(scholarship)
 
   useEffect(() => {
     if (user && scholarship) {
