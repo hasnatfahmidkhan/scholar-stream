@@ -12,7 +12,7 @@ const TopScholarship = () => {
       return data.scholarships;
     },
   });
-  console.log(scholarships, isLoading);
+
   return (
     <Container className={"py-20"}>
       {/* Section Header */}

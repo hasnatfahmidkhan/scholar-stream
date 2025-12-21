@@ -25,7 +25,6 @@ import Swal from "sweetalert2";
 import ReviewModal from "./ReviewModal";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner/Spinner";
-import ScholarshipCard from "../shared/ScholarshipCard/ScholarshipCard ";
 import RecomendedCard from "../../components/RecomendedCard/RecomendedCard";
 
 const ScholarshipDetails = () => {

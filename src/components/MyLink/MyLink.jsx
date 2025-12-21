@@ -6,7 +6,7 @@ const MyLink = ({ link }) => {
       to={link.link}
       className={({ isActive }) =>
         isActive
-          ? "btn btn-primary border-none"
+          ? "btn btn-primary border-none w-full"
           : "btn btn-ghost border-none hover:btn-primary"
       }
     >

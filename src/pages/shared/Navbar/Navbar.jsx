@@ -114,7 +114,14 @@ const Navbar = () => {
             )}
           </ul>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end gap-5">
+          {user || (
+            <>
+              <Link to={"/signIn"} className="btn">
+                Sign In
+              </Link>
+            </>
+          )}
           <div className="dropdown dropdown-end lg:hidden">
             <div tabIndex={0} role="button" className="mr-2">
               <svg
