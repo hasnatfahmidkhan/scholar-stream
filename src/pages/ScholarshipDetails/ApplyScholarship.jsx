@@ -29,7 +29,7 @@ const ApplyScholarship = () => {
       return data.details;
     },
   });
-  console.log(scholarship)
+
 
   useEffect(() => {
     if (user && scholarship) {

@@ -116,11 +116,11 @@ const Navbar = () => {
         </div>
         <div className="navbar-end gap-5">
           {!user && (
-            <>
+            <div className="lg:hidden gap-4">
               <Link to={"/signIn"} className="btn">
                 Sign In
               </Link>
-            </>
+            </div>
           )}
           <div className="dropdown dropdown-end lg:hidden">
             <div tabIndex={0} role="button" className="mr-2">
