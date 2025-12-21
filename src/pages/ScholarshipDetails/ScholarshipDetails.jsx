@@ -25,6 +25,8 @@ import Swal from "sweetalert2";
 import ReviewModal from "./ReviewModal";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner/Spinner";
+import ScholarshipCard from "../shared/ScholarshipCard/ScholarshipCard ";
+import RecomendedCard from "../../components/RecomendedCard/RecomendedCard";
 
 const ScholarshipDetails = () => {
   const { user } = useAuth();
@@ -32,6 +34,7 @@ const ScholarshipDetails = () => {
   const axiosSecure = useAxiosSecure();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+  const [recomended, setRecomended] = useState([]);
   const navigate = useNavigate();
   const {
     data: scholarship,
@@ -41,7 +44,8 @@ const ScholarshipDetails = () => {
     queryKey: ["scholarship", id],
     queryFn: async () => {
       const { data } = await axiosSecure(`/scholarship/${id}`);
-      return data;
+      setRecomended(data.recomended);
+      return data.details;
     },
   });
 
@@ -570,6 +574,15 @@ const ScholarshipDetails = () => {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold mb-6">Recomend For You</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {recomended?.map((scholarship) => (
+              <RecomendedCard key={scholarship._id} scholarship={scholarship} />
+            ))}
           </div>
         </div>
 
