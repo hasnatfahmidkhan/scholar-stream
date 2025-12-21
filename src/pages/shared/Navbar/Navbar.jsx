@@ -115,7 +115,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end gap-5">
-          {user || (
+          {!user && (
             <>
               <Link to={"/signIn"} className="btn">
                 Sign In
