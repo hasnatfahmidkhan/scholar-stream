@@ -579,7 +579,7 @@ const ScholarshipDetails = () => {
 
         <div className="mt-10">
           <h2 className="text-2xl font-bold mb-6">Recomend For You</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {recomended?.map((scholarship) => (
               <RecomendedCard key={scholarship._id} scholarship={scholarship} />
             ))}
