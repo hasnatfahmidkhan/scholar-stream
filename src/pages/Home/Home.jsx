@@ -3,11 +3,11 @@ import Banner from "./Banner/Banner";
 import Contact from "./Contact/Contact";
 import FAQ from "./Faq/Faq";
 import TopScholarship from "./TopScholarship/TopScholarship";
+import { ArrowDown } from "lucide-react";
+import { useRef } from "react";
 
 const Home = () => {
-  // 1. Define the animation behavior
-  // "hidden": Initial state (invisible, slightly down)
-  // "visible": Final state (fully visible, normal position)
+  const topScholarshipRef = useRef();
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -15,6 +15,10 @@ const Home = () => {
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" },
     },
+  };
+
+  const scrollToTopScholarships = () => {
+    topScholarshipRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -25,16 +29,25 @@ const Home = () => {
         <Banner />
       </motion.div>
 
-      {/* Top Scholarship: Animates when user scrolls to it */}
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }} // 'once: true' means it won't animate again when scrolling up
-        className="my-12" // Add spacing between sections
+      <div
+        onClick={scrollToTopScholarships}
+        className="animate-bounce bg-primary text-primary-content cursor-pointer w-12 h-12 rounded-full mx-auto flex items-center justify-center mt-10 active:scale-95 transition-all duration-100 hover:bg-primary/90"
       >
-        <TopScholarship />
-      </motion.div>
+        <ArrowDown />
+      </div>
+
+      {/* Top Scholarship: Animates when user scrolls to it */}
+      <div ref={topScholarshipRef} className="scroll-mt-12">
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }} // 'once: true' means it won't animate again when scrolling up
+          className="my-12" // Add spacing between sections
+        >
+          <TopScholarship />
+        </motion.div>
+      </div>
 
       {/* Contact Section */}
       <motion.div

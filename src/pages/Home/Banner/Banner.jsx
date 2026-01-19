@@ -16,7 +16,7 @@ const Banner = () => {
           <h1 className="mb-5 text-5xl font-bold leading-14">
             Find the Right Scholarship. <br /> Apply with Confidence.
           </h1>
-          <p className="mb-5 text-lg text-accent-content">
+          <p className="mb-5 text-lg">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.

@@ -8,15 +8,44 @@ body {
 }
 @plugin "daisyui/theme" {
   name: "light";
-  default: true; /* set as default */
-  color-scheme: light; /* color of browser-provided UI */
-
+  default: true;
+  color-scheme: light;
+  prefersdark: false;
   --color-primary: #3b82f6;
-  --color-primary-content: #fff;
+  --color-primary-content: #f7f7f7f7;
   --color-secondary: #10b981;
-  /* --color-secondary-content: oklch(98% 0.01 200); */
   --color-accent: #0f172a;
   --color-accent-content: #d1d5db;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  color-scheme: dark;
+  /* prefersdark: true; */
+  /* Base surfaces */
+  --color-base-100: #0b1220;
+  --color-base-200: #111827;
+  --color-base-300: #1f2933;
+  --color-base-content: #e5e7eb;
+
+  /* Brand */
+  --color-primary: #3b82f6;
+  --color-primary-content: #f7f7f7f7;
+
+  /* Secondary (success / highlights) */
+  --color-secondary: #34d399;
+  --color-secondary-content: #022c22;
+
+  /* Accent (headings / emphasis) */
+  --color-accent: #e5e7eb;
+  --color-accent-content: #020617;
+
+  /* Status */
+  --color-info: #38bdf8;
+  --color-success: #22c55e;
+  --color-warning: #facc15;
+  --color-error: #ef4444;
 }
 
 .custom-label {

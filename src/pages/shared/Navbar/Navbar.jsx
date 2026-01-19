@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"; // 1. Import hooks
 import { Link, NavLink } from "react-router";
 import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
@@ -7,6 +8,8 @@ import {
   Home,
   LayoutDashboard,
   LogOut,
+  Moon, // 2. Import Icons
+  Sun, // 2. Import Icons
   Trophy,
   UserCog,
 } from "lucide-react";
@@ -15,6 +18,7 @@ import MyLink from "../../../components/MyLink/MyLink";
 import toast from "react-hot-toast";
 import profileLoading from "../../../assets/animations/profileLoading.json";
 import Lottie from "lottie-react";
+
 const publicLinks = [
   {
     label: "Home",
@@ -36,6 +40,25 @@ const publicLinks = [
 const Navbar = () => {
   const { user, signOutFunc, authLoading } = useAuth();
 
+  // 3. Theme State Logic
+  // Initialize from localStorage or default to 'light'
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    // Apply theme to the HTML element
+    document.documentElement.setAttribute("data-theme", theme);
+    // Save to LocalStorage
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleThemeToggle = (e) => {
+    if (e.target.checked) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
+
   const handleSign = async () => {
     await signOutFunc();
     toast.success("Sign out Successfully!");
@@ -44,8 +67,9 @@ const Navbar = () => {
   const userLinks = (
     <>
       <li>
+        {/* Updated text color to text-base-content so it is visible in dark mode */}
         <Link
-          className={"mb-2.5 bg-base-100 text-[#000000]"}
+          className={"mb-2.5 bg-base-100 text-base-content"}
           to={"/dashboard/me"}
         >
           <UserCog size={18} />
@@ -53,7 +77,10 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link className={"mb-2.5 bg-base-100 text-[#000000]"} to={"/dashboard"}>
+        <Link
+          className={"mb-2.5 bg-base-100 text-base-content"}
+          to={"/dashboard"}
+        >
           <LayoutDashboard size={18} />
           Dashboard
         </Link>
@@ -69,8 +96,9 @@ const Navbar = () => {
       </li>
     </>
   );
+
   return (
-    <nav className="bg-base-100 shadow-sm py-1 sticky top-0 z-20">
+    <nav className="bg-base-100 shadow-sm py-1 sticky top-0 z-20 transition-colors duration-300">
       <Container className="navbar">
         <div className="navbar-start gap-2">
           {user && (
@@ -84,7 +112,7 @@ const Navbar = () => {
           )}
           <Link
             to={"/"}
-            className="flex items-center gap-2 text-xl font-extrabold text-blue-500 uppercase"
+            className="flex items-center gap-2 text-xl font-extrabold text-primary uppercase"
           >
             <GraduationCap className="size-8" />
             Scholar Stream
@@ -114,7 +142,23 @@ const Navbar = () => {
             )}
           </ul>
         </div>
-        <div className="navbar-end gap-5">
+        <div className="navbar-end gap-3 lg:gap-5">
+          {/* 4. Theme Toggle Button (DaisyUI Swap) */}
+          <label className="swap swap-rotate btn btn-ghost btn-circle">
+            {/* this hidden checkbox controls the state */}
+            <input
+              type="checkbox"
+              onChange={handleThemeToggle}
+              checked={theme === "dark"}
+            />
+
+            {/* sun icon */}
+            <Sun className="swap-off h-7 w-7 fill-current text-yellow-500" />
+
+            {/* moon icon */}
+            <Moon className="swap-on h-7 w-7 text-primary" />
+          </label>
+
           {!user && (
             <div className="lg:hidden gap-4">
               <Link to={"/signIn"} className="btn">
@@ -165,7 +209,7 @@ const Navbar = () => {
                 <Link to={"/signIn"} className="btn">
                   Sign In
                 </Link>
-                <Link to={"/signUp"} className="btn btn-primary">
+                <Link to={"/signUp"} className="btn btn-primary text-white">
                   Sign Up
                 </Link>
               </>

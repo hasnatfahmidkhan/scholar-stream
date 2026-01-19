@@ -19,7 +19,7 @@ const AllScholarships = () => {
     queryKey: ["scholarships", schCat, subCat, loc, search, sort],
     queryFn: async () => {
       const { data } = await axiosInstance.get(
-        `/scholarships?schCat=${schCat}&subCat=${subCat}&loc=${loc}&sort=${sort}&search=${search}`
+        `/scholarships?schCat=${schCat}&subCat=${subCat}&loc=${loc}&sort=${sort}&search=${search}`,
       );
       return data.scholarships;
     },
@@ -89,7 +89,7 @@ const AllScholarships = () => {
           ? [...Array(6)].map((_, index) => (
               <ScholarshipCardSkeleton key={index} />
             ))
-          : scholarships.map((scholarship) => (
+          : scholarships?.map((scholarship) => (
               <ScholarshipCard
                 key={scholarship._id}
                 scholarship={scholarship}
