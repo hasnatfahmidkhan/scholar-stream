@@ -3,10 +3,11 @@ import useAxios from "../../hooks/useAxios";
 import Container from "../../components/Container/Container";
 import ScholarshipCard from "../shared/ScholarshipCard/ScholarshipCard ";
 import Filters from "./Filters/Filters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./Search";
 import { Circle } from "lucide-react";
 import ScholarshipCardSkeleton from "../shared/ScholarshipCard/ScholarshipCardSkeleton";
+import { useSearchParams } from "react-router";
 
 const AllScholarships = () => {
   const [schCat, setSchCat] = useState("");
@@ -15,6 +16,9 @@ const AllScholarships = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const axiosInstance = useAxios();
+  const [searchParams] = useSearchParams();
+  const searchByCat = searchParams.get("search");
+
   const { data: scholarships, isLoading } = useQuery({
     queryKey: ["scholarships", schCat, subCat, loc, search, sort],
     queryFn: async () => {
@@ -24,6 +28,10 @@ const AllScholarships = () => {
       return data.scholarships;
     },
   });
+
+  useEffect(() => {
+    setSubCat(searchByCat);
+  }, [searchByCat]);
 
   const handleReset = () => {
     setSearch("");
@@ -66,6 +74,7 @@ const AllScholarships = () => {
               <Filters
                 setSchCat={setSchCat}
                 setSubCat={setSubCat}
+                subCat={subCat}
                 setLoc={setLoc}
                 setSort={setSort}
               />

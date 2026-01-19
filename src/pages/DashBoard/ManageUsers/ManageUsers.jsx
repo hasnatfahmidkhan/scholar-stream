@@ -20,6 +20,8 @@ import SearchInput from "../../AllScholarships/Search";
 import searchLoading from "../../../assets/animations/searchLoading.json";
 import Lottie from "lottie-react";
 import Pagination from "../../../components/Pagination/Pagination";
+import { FaShieldAlt, FaTrashAlt, FaUserEdit } from "react-icons/fa";
+import useAuth from "../../../hooks/useAuth";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -27,7 +29,7 @@ const ManageUsers = () => {
   const [roleFilter, setRoleFilter] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [newRole, setNewRole] = useState("");
-
+  const { user: currentUser } = useAuth();
   const roleModalRef = useRef(null);
   const deleteModalRef = useRef(null);
 
@@ -44,7 +46,7 @@ const ManageUsers = () => {
     queryKey: ["users", search, roleFilter, limit, page],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `/users?search=${search}&filter=${roleFilter}&limit=${limit}&page=${page}`
+        `/users?search=${search}&filter=${roleFilter}&limit=${limit}&page=${page}`,
       );
       setTotalPages(Math.ceil(data.totalUsers / limit));
       return data.users;
@@ -97,9 +99,12 @@ const ManageUsers = () => {
 
   const confirmRoleChange = async () => {
     try {
-      const { data } = await axiosSecure.patch(`/users/${selectedUser._id}`, {
-        role: newRole,
-      });
+      const { data } = await axiosSecure.patch(
+        `/users/role/${selectedUser._id}`,
+        {
+          role: newRole,
+        },
+      );
       if (data.modifiedCount) {
         toast.success(`Role updated to ${newRole}!`);
         refetch();
@@ -282,7 +287,18 @@ const ManageUsers = () => {
                       </td>
 
                       {/* Role */}
-                      <td>{getRoleBadge(user.role)}</td>
+                      <td>
+                        {/* 1. Show Special Badge for Protected Users */}
+                        {user.isProtected ? (
+                          <span className="badge badge-primary gap-1 font-bold">
+                            <FaShieldAlt /> Super Admin
+                          </span>
+                        ) : (
+                          <span className="badge badge-ghost uppercase">
+                            {user.role}
+                          </span>
+                        )}
+                      </td>
 
                       {/* Joined Date */}
                       <td>
@@ -296,23 +312,41 @@ const ManageUsers = () => {
 
                       {/* Actions */}
                       <td>
-                        <div className="flex items-center justify-center gap-1">
-                          {/* Change Role */}
+                        <div className="flex gap-2">
+                          {/* Make Admin Button */}
                           <button
                             onClick={() => handleRoleClick(user)}
-                            className="btn btn-ghost btn-sm btn-square text-warning"
-                            title="Change Role"
+                            // 2. Disable if user is protected OR if it's the current user
+                            disabled={
+                              user.isProtected ||
+                              user.email === currentUser.email
+                            }
+                            className="btn btn-xs btn-outline btn-info"
+                            title={
+                              user.isProtected
+                                ? "Cannot modify Super Admin"
+                                : "Change Role"
+                            }
                           >
-                            <UserCog className="size-4" />
+                            <FaUserEdit />
                           </button>
 
-                          {/* Delete */}
+                          {/* Delete Button */}
                           <button
                             onClick={() => handleDeleteClick(user)}
-                            className="btn btn-ghost btn-sm btn-square text-error"
-                            title="Delete User"
+                            // 3. Disable if user is protected
+                            disabled={
+                              user.isProtected ||
+                              user.email === currentUser.email
+                            }
+                            className="btn btn-xs btn-outline btn-error"
+                            title={
+                              user.isProtected
+                                ? "Cannot delete Super Admin"
+                                : "Delete User"
+                            }
                           >
-                            <Trash2 className="size-4" />
+                            <FaTrashAlt />
                           </button>
                         </div>
                       </td>

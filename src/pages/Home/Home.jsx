@@ -5,9 +5,11 @@ import FAQ from "./Faq/Faq";
 import TopScholarship from "./TopScholarship/TopScholarship";
 import { ArrowDown } from "lucide-react";
 import { useRef } from "react";
+import Stats from "./Stats/Stats";
+import BrowseCategory from "./BrowseCategory/BrowseCategory";
 
 const Home = () => {
-  const topScholarshipRef = useRef();
+  const statsRef = useRef();
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -18,7 +20,7 @@ const Home = () => {
   };
 
   const scrollToTopScholarships = () => {
-    topScholarshipRef.current?.scrollIntoView({ behavior: "smooth" });
+    statsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -36,8 +38,12 @@ const Home = () => {
         <ArrowDown />
       </div>
 
+      <div ref={statsRef} className="scroll-mt-12">
+        <Stats />
+      </div>
+
       {/* Top Scholarship: Animates when user scrolls to it */}
-      <div ref={topScholarshipRef} className="scroll-mt-12">
+      <div>
         <motion.div
           variants={fadeInUp}
           initial="hidden"
@@ -48,6 +54,8 @@ const Home = () => {
           <TopScholarship />
         </motion.div>
       </div>
+
+      <BrowseCategory />
 
       {/* Contact Section */}
       <motion.div
