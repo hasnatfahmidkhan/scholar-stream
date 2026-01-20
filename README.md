@@ -1,4 +1,4 @@
----
+***
 
 # 🎓 ScholarStream - Scholarship Management Platform
 
