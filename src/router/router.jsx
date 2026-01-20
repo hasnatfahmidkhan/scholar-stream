@@ -27,6 +27,12 @@ import MyReviews from "../pages/DashBoard/Student/MyReviews/MyReviews";
 import SuccessStories from "../pages/SuccessStories/SuccessStories";
 import WishList from "../pages/WishList/WishList";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Resources from "../pages/Resources/Resources";
+import Terms from "../pages/Terms/Terms";
+import Privacy from "../pages/Privacy/Privacy";
+import ContactPage from "../pages/ContactPage/ContactPage";
+import About from "../pages/About/About";
+import CookiePolicy from "../pages/CookiePolicy/CookiePolicy";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +56,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <WishList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/resources",
+        element: (
+          <PrivateRoute>
+            <Resources />
           </PrivateRoute>
         ),
       },
@@ -96,6 +110,26 @@ const router = createBrowserRouter([
             <PaymentFail />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/terms",
+        Component: Terms,
+      },
+      {
+        path: "/privacy",
+        Component: Privacy,
+      },
+      {
+        path: "/contact",
+        Component: ContactPage,
+      },
+      {
+        path: "/about",
+        Component: About,
+      },
+      {
+        path: "/cookies",
+        Component: CookiePolicy,
       },
     ],
   },

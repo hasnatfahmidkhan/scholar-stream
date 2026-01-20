@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router";
 import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
 import {
+  BookOpenText,
   GraduationCap,
   Heart,
   Home,
@@ -18,6 +19,7 @@ import MyLink from "../../../components/MyLink/MyLink";
 import toast from "react-hot-toast";
 import profileLoading from "../../../assets/animations/profileLoading.json";
 import Lottie from "lottie-react";
+import { FaBookOpen } from "react-icons/fa";
 
 const publicLinks = [
   {
@@ -119,26 +121,41 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="flex items-center gap-5 text-accent text-base font-semibold tracking-wide">
+          <ul className="flex items-center gap-2 text-accent text-base font-semibold tracking-wide">
             {publicLinks.map((link) => (
               <li key={link.label}>
                 <MyLink link={link} />
               </li>
             ))}
             {user && (
-              <li>
-                <NavLink
-                  to={"/wishlist"}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "btn btn-primary border-none"
-                      : "btn btn-ghost border-none hover:btn-primary"
-                  }
-                >
-                  <Heart size={18} />
-                  WishList
-                </NavLink>
-              </li>
+              <>
+                <li>
+                  <NavLink
+                    to={"/wishlist"}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "btn btn-primary border-none"
+                        : "btn btn-ghost border-none hover:btn-primary"
+                    }
+                  >
+                    <Heart size={18} />
+                    WishList
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/resources"}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "btn btn-primary border-none"
+                        : "btn btn-ghost border-none hover:btn-primary"
+                    }
+                  >
+                    <BookOpenText size={18} />
+                    Resources
+                  </NavLink>
+                </li>
+              </>
             )}
           </ul>
         </div>

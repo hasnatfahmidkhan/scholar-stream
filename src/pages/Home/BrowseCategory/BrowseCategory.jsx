@@ -30,7 +30,7 @@ const BrowseCategory = () => {
 
   return (
     <>
-      <Container>
+      <Container className={'my-32'}>
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Browse by Category</h2>

@@ -17,7 +17,7 @@ const AllScholarships = () => {
   const [sort, setSort] = useState("");
   const axiosInstance = useAxios();
   const [searchParams] = useSearchParams();
-  const searchByCat = searchParams.get("search");
+  const searchByCat = searchParams.get("search") || "";
 
   const { data: scholarships, isLoading } = useQuery({
     queryKey: ["scholarships", schCat, subCat, loc, search, sort],

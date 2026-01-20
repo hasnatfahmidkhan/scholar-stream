@@ -46,7 +46,7 @@ const ReviewModal = ({
       universityName,
       name: user?.displayName,
       email: user?.email,
-      avater: user?.photoURL,
+      avater: user?.photoURL || "/profile.png",
     };
     onSubmit(reviewData);
     reset();

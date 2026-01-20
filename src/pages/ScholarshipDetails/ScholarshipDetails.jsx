@@ -92,7 +92,7 @@ const ScholarshipDetails = () => {
     queryKey: ["wishlist-status", id, user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `/wishlists/check/${id}?email=${user?.email}`
+        `/wishlists/check/${id}?email=${user?.email}`,
       );
       return data;
     },
@@ -434,8 +434,8 @@ const ScholarshipDetails = () => {
                     daysRemaining <= 7
                       ? "alert-error"
                       : daysRemaining <= 30
-                      ? "alert-warning"
-                      : "alert-success"
+                        ? "alert-warning"
+                        : "alert-success"
                   } mb-4`}
                 >
                   <FaClock />
@@ -516,8 +516,8 @@ const ScholarshipDetails = () => {
                       {saveLoading
                         ? "Saving..."
                         : isBookmarked
-                        ? "Saved"
-                        : "Save"}
+                          ? "Saved"
+                          : "Save"}
                     </button>
 
                     {/* Updated Review Button */}
@@ -628,7 +628,7 @@ const ScholarshipDetails = () => {
                           {formatDate(
                             review?.updatedAt
                               ? review?.updatedAt
-                              : review?.createdAt
+                              : review?.createdAt,
                           )}
                         </p>
                       </div>

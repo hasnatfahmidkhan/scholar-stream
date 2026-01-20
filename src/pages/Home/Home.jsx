@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import Banner from "./Banner/Banner";
-import Contact from "./Contact/Contact";
 import FAQ from "./Faq/Faq";
 import TopScholarship from "./TopScholarship/TopScholarship";
 import { ArrowDown } from "lucide-react";
 import { useRef } from "react";
 import Stats from "./Stats/Stats";
 import BrowseCategory from "./BrowseCategory/BrowseCategory";
+import HowItWorks from "./HowItWorks/HowItWorks";
+import TrustedUniversities from "./TrustedUniversities/TrustedUniversities";
+import SuccessStories from "./SuccessStories/SuccessStories";
 
 const Home = () => {
   const statsRef = useRef();
@@ -38,7 +40,7 @@ const Home = () => {
         <ArrowDown />
       </div>
 
-      <div ref={statsRef} className="scroll-mt-12">
+      <div ref={statsRef} className="scroll-mt-24">
         <Stats />
       </div>
 
@@ -55,18 +57,17 @@ const Home = () => {
         </motion.div>
       </div>
 
+      {/* Browse by category  */}
       <BrowseCategory />
 
-      {/* Contact Section */}
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="my-12"
-      >
-        <Contact />
-      </motion.div>
+      {/* How is it works */}
+      <HowItWorks />
+
+      {/* Trusted Universities */}
+      <TrustedUniversities />
+
+      {/* SuccessStories  */}
+      <SuccessStories />
 
       {/* FAQ Section */}
       <motion.div

@@ -66,7 +66,7 @@ const Stats = () => {
   ];
 
   return (
-    <Container className={"py-20"}>
+    <Container className={"my-20"}>
       <div ref={ref}>
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Our Impact in Numbers</h2>

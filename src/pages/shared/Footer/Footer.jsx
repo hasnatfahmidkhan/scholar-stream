@@ -2,13 +2,11 @@ import { Link } from "react-router";
 import {
   GraduationCap,
   Facebook,
-  Twitter,
   Linkedin,
-  Instagram,
   Mail,
   Phone,
   MapPin,
-  ArrowRight,
+  Github,
 } from "lucide-react";
 
 const Footer = () => {
@@ -32,10 +30,15 @@ const Footer = () => {
             </p>
             <div className="flex gap-4 pt-2">
               {[
-                { icon: Facebook, href: "#" },
-                { icon: Twitter, href: "#" },
-                { icon: Linkedin, href: "#" },
-                { icon: Instagram, href: "#" },
+                {
+                  icon: Facebook,
+                  href: "https://www.facebook.com/hasnatfahmidkhan",
+                },
+                {
+                  icon: Linkedin,
+                  href: "https://www.linkedin.com/in/hasnatfahmid",
+                },
+                { icon: Github, href: "https://github.com/hasnatfahmidkhan" },
               ].map((social, idx) => (
                 <a
                   key={idx}
@@ -56,7 +59,7 @@ const Footer = () => {
                 { label: "Home", href: "/" },
                 { label: "All Scholarships", href: "/scholarships" },
                 { label: "About Us", href: "/about" },
-                { label: "Success Stories", href: "/stories" },
+                { label: "Success Stories", href: "/success-stories" },
                 { label: "Contact Support", href: "/contact" },
               ].map((link, idx) => (
                 <li key={idx}>
