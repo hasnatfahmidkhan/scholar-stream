@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"; // 1. Import hooks
 import { Link, NavLink } from "react-router";
 import Container from "../../../components/Container/Container";
 import useAuth from "../../../hooks/useAuth";
@@ -9,8 +8,6 @@ import {
   Home,
   LayoutDashboard,
   LogOut,
-  Moon, // 2. Import Icons
-  Sun, // 2. Import Icons
   Trophy,
   UserCog,
 } from "lucide-react";
@@ -19,7 +16,7 @@ import MyLink from "../../../components/MyLink/MyLink";
 import toast from "react-hot-toast";
 import profileLoading from "../../../assets/animations/profileLoading.json";
 import Lottie from "lottie-react";
-import { FaBookOpen } from "react-icons/fa";
+import ThemeToggle from "../../../components/ThemeToggle/ThemeToggle"; // Import the new component
 
 const publicLinks = [
   {
@@ -42,25 +39,6 @@ const publicLinks = [
 const Navbar = () => {
   const { user, signOutFunc, authLoading } = useAuth();
 
-  // 3. Theme State Logic
-  // Initialize from localStorage or default to 'light'
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-
-  useEffect(() => {
-    // Apply theme to the HTML element
-    document.documentElement.setAttribute("data-theme", theme);
-    // Save to LocalStorage
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const handleThemeToggle = (e) => {
-    if (e.target.checked) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  };
-
   const handleSign = async () => {
     await signOutFunc();
     toast.success("Sign out Successfully!");
@@ -69,7 +47,6 @@ const Navbar = () => {
   const userLinks = (
     <>
       <li>
-        {/* Updated text color to text-base-content so it is visible in dark mode */}
         <Link
           className={"mb-2.5 bg-base-100 text-base-content"}
           to={"/dashboard/me"}
@@ -160,21 +137,8 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end gap-3 lg:gap-5">
-          {/* 4. Theme Toggle Button (DaisyUI Swap) */}
-          <label className="swap swap-rotate btn btn-ghost btn-circle">
-            {/* this hidden checkbox controls the state */}
-            <input
-              type="checkbox"
-              onChange={handleThemeToggle}
-              checked={theme === "dark"}
-            />
-
-            {/* sun icon */}
-            <Sun className="swap-off h-7 w-7 fill-current text-yellow-500" />
-
-            {/* moon icon */}
-            <Moon className="swap-on h-7 w-7 text-primary" />
-          </label>
+          {/* Reusable Theme Toggle Component */}
+          <ThemeToggle />
 
           {!user && (
             <div className="lg:hidden gap-4">
@@ -210,6 +174,7 @@ const Navbar = () => {
                   <MyLink link={link} />
                 </li>
               ))}
+              {/* Also add Resources/Wishlist here for Mobile if you want */}
             </ul>
           </div>
           <div className="hidden lg:flex gap-4">

@@ -261,11 +261,11 @@ const SignUp = () => {
                       />
                       <span className="text-sm">
                         I agree to the{" "}
-                        <Link to="#" className="text-primary hover:underline">
+                        <Link to="/terms" className="text-primary hover:underline">
                           Terms of Service
                         </Link>{" "}
                         and{" "}
-                        <Link to="#" className="text-primary hover:underline">
+                        <Link to="/privacy" className="text-primary hover:underline">
                           Privacy Policy
                         </Link>
                       </span>

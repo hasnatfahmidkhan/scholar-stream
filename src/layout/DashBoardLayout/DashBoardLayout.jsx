@@ -1,4 +1,3 @@
-// src/layouts/DashBoardLayout.jsx
 import {
   Award,
   User,
@@ -20,6 +19,7 @@ import toast from "react-hot-toast";
 import ScrollToTop from "../../components/ScrollToUp/ScrollToUp";
 import { useState } from "react";
 import useRole from "../../hooks/useRole";
+import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 
 const DashBoardLayout = () => {
   const { user, signOutFunc } = useAuth();
@@ -112,7 +112,8 @@ const DashBoardLayout = () => {
           </div>
 
           {/* Right Side */}
-          <div className="flex items-center gap-3 ">
+          <div className="flex items-center gap-5">
+            <ThemeToggle />
             {/* User Avatar Dropdown - Using ProfileIcon */}
             <div className="dropdown dropdown-end">
               <ProfileIcon user={user} iconPosition="right-0" />
@@ -239,7 +240,7 @@ const DashBoardLayout = () => {
                             </>
                           )}
                         </NavLink>
-                      )
+                      ),
                   )}
                 </li>
               ))}
