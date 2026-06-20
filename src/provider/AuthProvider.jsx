@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
         axiosInstance
           .post("/getToken", userInfo)
           .then(() => {
-            console.log("Login Succesfully");
+            // console.log("Login Succesfully");
           })
           .catch((err) => {
             console.log("Error to generate token", err);
